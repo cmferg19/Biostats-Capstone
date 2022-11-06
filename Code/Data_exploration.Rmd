@@ -3,6 +3,7 @@ title: "Data Exploration"
 output: html_notebook
 ---
 
+# Overview
 This document will be used for the data exploration phase of this project.  The first thing that I am going to do is upload the usual code to set up the workspace.
 
 ```{r}
@@ -15,4 +16,33 @@ library(dplyr)
 library(here)
 library(ggfortify)
 ```
+Now I will pull in the dataset that I selected for the capstone project.  The data set consists of different gait analysis metrics for individuals walking up and down a sloped surface with a prosthetic containing a microcontroller and one that does not. 
+
+```{r}
+# import data set using read.csv() and stringsAsFactors = TRUE to import the categorical data as factors with levels that we can look at
+DF <- read.csv(here("Data", "prosthetic_analysis.csv"), stringsAsFactors = TRUE)
+
+# take an initial look at the structure of the data set
+glimpse(DF)
+```
+
+# Data Exploration
+Now, the three things that I want to analyse within this data set are: 
+1. The propulsion of the different types of prosthetic while walking uphill compared to the intact leg.
+2. The dampening power of the different types of prostheses compared to the intact leg. 
+3. The relationship between stance and overall swing velocity.
+
+After looking at the data initially, there is a lot of information inside of it.  The first thing that we are going to do is simplify things by taking out the data we want and placing it into a new data frame.
+
+```{r}
+# select the data that we want from the current data set
+DF_refined <- DF %>% select(c("Subject", "Session", "Side", "Slope","Power.Gen...Preswing", "Power.Gen...Midstance", "Power.Gen...Terminal.stance", "Propulsion", "Braking", "Velocity" ))
+```
+Now that I have the data that I want to take a look at separated from the rest of the data, I will clean it up a bit to make it easier to understand starting with modifying the column titles. 
+```{r}
+# clean up the column headers
+names(DF_refined) <- c("Subject", "Session", "Side", "Slope", "Power_Gen_Pre", "Power_Gen_Mid", "Power_Gen_Terminal", "Propulsion", "Braking", "Velocity")
+```
+
+
 
