@@ -1,0 +1,18 @@
+---
+title: "Data Exploration"
+output: html_notebook
+---
+
+This document will be used for the data exploration phase of this project.  The first thing that I am going to do is upload the usual code to set up the workspace.
+
+```{r}
+# clear R's environment
+rm(list = ls())
+
+# upload the libraries that we will need for this analysis
+library(ggplot2)
+library(dplyr)
+library(here)
+library(ggfortify)
+```
+
