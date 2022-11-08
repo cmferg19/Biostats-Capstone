@@ -44,5 +44,14 @@ Now that I have the data that I want to take a look at separated from the rest o
 names(DF_refined) <- c("Subject", "Session", "Side", "Slope", "Power_Gen_Pre", "Power_Gen_Mid", "Power_Gen_Terminal", "Propulsion", "Braking", "Velocity")
 ```
 
+The data has been cleaned up a bit now which makes it a little easier to understand.  During the data analysis phase, we want to get a sense of the central tendency and the spread of the data.  I will first get a sense of central tendency by looking at the data using the `summary()` function.  This will give us a summary of the basic statistics for the data we are interested in.  This will also give us the chance to look for any potential outliers in the data. 
+
+```{r}
+# run a summary of the data to draw some basic stats and look for outliers
+summary(DF_refined)
+```
+From this, the only potential outlier that I see is in the Power_Gen_Terminal column.  The mean of the power generated in this position is 0.8266 and the maximum is 2.71 watts.  This is a pretty big difference so lets take a closer look with a histogram:
+
+
 
 
