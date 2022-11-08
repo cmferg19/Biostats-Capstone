@@ -57,6 +57,7 @@ The data has been cleaned up a bit now which makes it a little easier to underst
 # run a summary of the data to draw some basic stats and look for outliers
 summary(DF_refined)
 ```
+### Power Generation in Terminal Phase
 From this, the only potential outlier that I see is in the Power_Gen_Terminal column.  The mean of the power generated in this position is 0.8266 and the maximum is 2.71 watts.  This is a pretty big difference so lets take a closer look with a histogram:
 
 ```{r}
@@ -73,7 +74,39 @@ ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Power_Gen_Terminal))+
     geom_histogram(binwidth = 0.5)+
     facet_wrap(~Session)
 ```
+### Power Generation in Preswing
+Now let's take a look at the power generation in the other stance phases:
+```{r}
+# make a histogram of the Power_Gen_Pres
+ggplot(DF_refined, aes(x = Power_Gen_Pre))+
+    geom_histogram(binwidth = 1)+
+    facet_wrap(~Side)
+```
+This is interesting because it looks like there is a little bit of an outlier in the prosthetic data.  Let's compare the two different types of prosthetics:
+```{r}
+# make a histogram of the Power_Gen_Pre based on prosthetic type
+ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Power_Gen_Pre))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Session)
+```
+Now we know that the differences in power generation came from the active BiOM prosthetic which is interesting because in that prosthetic, there is a micro controller that is determining the power output.
 
+### Power Generation in Midswing
+Let's take a look at the spread of the power generation in the midswing phase.  
+```{r}
+# make a histogram of the Power_Gen_Mid
+ggplot(DF_refined, aes(x = Power_Gen_Mid))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Side)
+```
+This is interesting because the power generation in the mid swing is distributed over the same range for both the intact and the prosthetic, but there is a clear gap in the prosthetic data.  I'll take a closer look at this by graphing the prosthetic data alone. 
+```{r}
+# make a histogram of the Power_Gen_Mid based on prosthetic type
+ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Power_Gen_Mid))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Session)
+```
+Closer analysis shows that for both the active and passive prosthetics, the distribution looks pretty similar except for the data at -1.5 watts that corresponds to the active prosthetic.  This could be an outlier, but since it is still within the range of the intact leg, I think I will keep it. 
 
 
 
