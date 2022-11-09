@@ -106,7 +106,62 @@ ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Power_Gen_Mid))+
     geom_histogram(binwidth = 0.5)+
     facet_wrap(~Session)
 ```
-Closer analysis shows that for both the active and passive prosthetics, the distribution looks pretty similar except for the data at -1.5 watts that corresponds to the active prosthetic.  This could be an outlier, but since it is still within the range of the intact leg, I think I will keep it. 
+Closer analysis shows that for both the active and passive prostheses, the distribution looks pretty similar except for the data at -1.5 watts that corresponds to the active prosthetic.  This could be an outlier, but since it is still within the range of the intact leg, I think I will keep it. 
+
+### Propulsion
+Now that we have taken a look at the data for power generation during the different phases of walking, let's look at the other things that we are interested in starting with propulsion. We will use a histogram again to look at the spread of the propulsion data between the intact and prosthetic legs. 
+
+```{r}
+# use histogram to look at the propulsion data
+ggplot(DF_refined, aes(x = Propulsion))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Side)
+```
+upon initial analysis, these look pretty similar.  Lets take a look at the differences between the two types of prosthetics.
+
+```{r}
+# make a histogram of the propulsion based on prosthetic type
+ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Propulsion))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Session)
+```
+Again, not a huge difference between the two.  If anything there might be a little bit more propulsion in the active prosthetic but further analysis is needed to determine if this is significant.
+
+### Braking
+Now let's explore the braking data.
+```{r}
+# use a histogram to look at the spread of the braking data
+ggplot(DF_refined, aes(x = Braking))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Side)
+```
+These look very similar and the spread is almost identical between the two - let's see if this trend holds between the two different prosthetics:
+```{r}
+# make a histogram of the braking based on prosthetic type
+ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Braking))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Session)
+```
+This gives us some more insight into how the micro controller inside of the BiOM prosthetic may work to reduce the overall stresses on the body. Again however, more analysis is needed before we see if there is a significant impact here. 
+
+### Velocity
+The last thing that I want to look at is velocity.  If the user is swinging the prosthetic too fast and spending more time on their intact leg, it could indicate that they are compensting more which would increase the extra stress and strain on their body. Step velocity is a good way to measure this because it tells us whether there is a side that they prefer. To take a look at this, we will go through the same process as before: 
+
+```{r}
+# use a histogram to look at the spread of the velocity data
+ggplot(DF_refined, aes(x = Velocity))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Side)
+```
+Now this is interesting, the spread of the data looks pretty much identical.  Now let's investigate whether there is a difference between the prosthesis types:
+
+```{r}
+# make a histogram of the velocity based on prosthetic type
+ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Velocity))+
+    geom_histogram(binwidth = 0.5)+
+    facet_wrap(~Session)
+```
+From the first initial glance it does look like there may be a difference here. That being said, it is difficult to determine if this is big enough to be significant because the ranges are sill pretty similar.  
 
 
 
