@@ -145,15 +145,17 @@ ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Braking))+
 This gives us some more insight into how the micro controller inside of the BiOM prosthetic may work to reduce the overall stresses on the body. Again however, more analysis is needed before we see if there is a significant impact here. 
 
 ### Velocity
-The last thing that I want to look at is velocity.  If the user is swinging the prosthetic too fast and spending more time on their intact leg, it could indicate that they are compensting more which would increase the extra stress and strain on their body. Step velocity is a good way to measure this because it tells us whether there is a side that they prefer. To take a look at this, we will go through the same process as before: 
+The last thing that I want to look at is velocity.  If the user is swinging the prosthetic too fast and spending more time on their intact leg, it could indicate that they are compensting more which would increase the extra stress and strain on their body. Step velocity is a good way to measure this because it tells us whether there is a side that they prefer. To take a look at this, we will go through the same process as before but instead create a boxplot of the data: 
 
 ```{r}
-# use a histogram to look at the spread of the velocity data
-ggplot(DF_refined, aes(x = Velocity))+
-    geom_histogram(binwidth = 0.5)+
-    facet_wrap(~Side)
+# use a boxplot to look at the spread of the velocity data
+ggplot(DF_refined, aes(x = Side, y = Velocity)) +
+geom_boxplot()+
+  geom_point(size = 3, colour = 'lightgrey', alpha = 0.5)
+  
+  
 ```
-Now this is interesting, the spread of the data looks pretty much identical.  Now let's investigate whether there is a difference between the prosthesis types:
+This is interesting, the spread of the data looks pretty much identical.  Also, according to these plots it looks like there may be an outlier at the same spot for both.  I feel like this is too much of a coincidence to be an outlier so we will keep that point in.  Now let's investigate whether there is a difference between the prosthesis types:
 
 ```{r}
 # make a histogram of the velocity based on prosthetic type
@@ -161,7 +163,9 @@ ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Velocity))+
     geom_histogram(binwidth = 0.5)+
     facet_wrap(~Session)
 ```
-From the first initial glance it does look like there may be a difference here. That being said, it is difficult to determine if this is big enough to be significant because the ranges are sill pretty similar.  
+From the first initial glance it does look like there may be a difference here. That being said, it is difficult to determine if this is big enough to be significant because the ranges are still pretty close.  
 
+## Data Exploration Conclusion
+From this process we were able to look a little closer at the spread and the central tendencies of the data.  It also helped us take a look at different potential outliers and determine whether to keep them in the dataset or not.  Right now it appears that the spread of the data may support the initial hypotheses that I made but I will have to complete the full data analysis to determine whethere there is a level of significance within the data to support those hypotheses. 
 
 
