@@ -44,7 +44,28 @@ ggplot(filter(DF, Side == "Prosthetic"), aes(x = Power_Gen_Terminal))+
     facet_wrap(~Session)
 ```
 
-To do this, I will perform a two sample T test between these.  
+To do this, I will perform a two sample T test between the two prosthetic types.  
+
+```{r}
+# perform two sample t test
+t.test(Propulsion ~ filter(DF, Side == "Prosthetic"), data = DF)
+```
+Yep, that did not work.  I first need to filter out the prosthetic data from the rest of the data.  To do that, I will use piping to create a new DF to use.
+```{r}
+# separate the prosthetic data from the data corresponding to the intact leg data.
+DF_prosthetic <- DF %>% filter(Side == "Prosthetic")
+
+# take a look to check this new data frame
+glimpse(DF_prosthetic)
+```
+Ok now lets give the two sample t test another shot:
+```{r}
+# perform two sample t test
+t.test(Propulsion ~ Session, data = DF_prosthetic)
+```
+
+
+
 
 
 2. 2 - way analysis of variance (chapter 6).  ANOVA (glm(damp~side+session+ side*session))
