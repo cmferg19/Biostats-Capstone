@@ -166,7 +166,7 @@ ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Velocity))+
 From the first initial glance it does look like there may be a difference here. That being said, it is difficult to determine if this is big enough to be significant because the ranges are still pretty close.  
 
 ## Data Exploration Conclusion
-From this process we were able to look a little closer at the spread and the central tendencies of the data.  It also helped us take a look at different potential outliers and determine whether to keep them in the dataset or not.  Right now it appears that the spread of the data may support the initial hypotheses that I made but I will have to complete the full data analysis to determine whethere there is a level of significance within the data to support those hypotheses. 
+From this process we were able to look a little closer at the spread and the central tendencies of the data.  It also helped us take a look at different potential outliers and determine whether to keep them in the dataset or not.  Right now it appears that the spread of the data may support the initial hypotheses that I made but I will have to complete the full data analysis to determine whether there is a level of significance within the data to support those hypotheses. 
 
 Now that I have completed the data exploration phase and cleaning the data, I will save the processed data as a new .csv file to use for analysis.
 

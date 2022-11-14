@@ -1,0 +1,25 @@
+---
+title: "Data_analysis_scratch"
+author: "Cora Ferguson"
+date: "2022-11-14"
+output: html_document
+---
+
+Given that last time we cleaned up the data to seperate the variables that we are interested in out, now I am moving onto the data analysis phase.  I have three different hypothesis that I want to look at:
+
+  1.	Hypothesis: Since the active prosthetic is designed to mimic the natural motion of the body, I believe the active prosthetic will have more propulsion while walking uphill than the passive prosthetic. 
+  
+  2.	Hypothesis: When walking downhill, the body absorbs force by dampening each step.  This allows humans to maintain a reasonable center of gravity while reducing the forces on other joints.  The active prosthetic is designed to increase energy return upon stepping up whereas the passive ankle is designed to absorb energy and transfer it forward.  While the energy that is transferred forward may not be as strong as in the active prosthetic, I expect the dampening effect of the passive prosthetic to be greater than the active prosthetic. 
+  
+  3.	Hypothesis: The next think that I want to look at is the effects of power generation in different parts of the stance on overall swing velocity.  Power generation refers to the amount of force that is used to push off of the ground.  In different stances, different muscles are involved in power generation which causes this force to vary.  I want to see which stance has the greatest impact on overall power generation.  The three stances I will analyze are the pre-swing, the midstance, and the terminal stance.  Of these, I believe that power generation will be the greatest in the midstance phase.
+  
+Before we get into actually analysing these datasets, we need to set up R so we have the libraries that we need and the environment is cleared.
+```{r}
+# clear R's environment
+rm(list = ls())
+
+# import the modules that we need
+library(tidyverse)
+library(here)
+```
+
