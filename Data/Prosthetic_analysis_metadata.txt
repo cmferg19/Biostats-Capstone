@@ -1,0 +1,112 @@
+Cora Ferguson
+
+This metadata file outlines the parameters of the data within the dataset that I am using for the 
+Capstone project.  The data that I am using comes from the paper "Evaluation of a Powered Ankle-Foot 
+Prosthesis during Slope Ascent Gait" by investigators Christopher A. Rabago, Jennifer Aldrige Whitehead,
+and Jason M. Wilken to analyse the perfomance of different types of prosthetic limbs.  The goal of the 
+research is to identify a prosthetic that will limit the strain of impact on the limb and reduce
+compensation forces required to move and remain balanced on the prosthesis.
+
+Citation: Rábago, C. A., Whitehead, J. A., &#38; Wilken, J. M. (2016). Evaluation of a powered ankle-foot 
+prosthesis during slope ascent gait. <i>PLoS ONE</i>, <i>11</i>(12). https://doi.org/10.1371/journal.pone.0166815</div>
+
+Description of the columns:
+- Subject: the individual that is walking up and down the sloped surface who's movements are being analysed
+- Session: the type of prosthetic being tested (ESR = passive, BiOM = active)
+- Side: the side of the individual being analysed (prosthetic = amputated side, intact = healthy leg)
+- Slope: the angle of the gradient that the individuals are walking up/down 
+- Plantarflexion - Loading response: the angle of plantarflexion associated with load being applied 
+- Dorsiflexion - Terminal stance: the degree of dorsiflection in the terminal position
+- Plantarflexion - Initial swing: the angle of plantarflexion in the initial swing phase
+- Sagittal range of motion: the range of motion in the forwards and backwards directions in degrees
+- Flexion - initial contact: the angle of flexion upon initial contact with the ground
+- Flexion - Loading response: the angle of flexion upon loading
+- Extension - Terminal stance: the angle of extention upon loading
+- Flexion - Swing: the degree of flexion during the initial swing phase
+- Sagittal range of motion: the range of motion in the forwards and backwards swing phase
+- Flexion - Loading response: the degree of flexion upon loading
+- Extension - Preswing: the degree of extension of the leg in the preswing phase
+- Flexion - Swing: the degree of flextion of the leg in the swing phase
+- Sagittal range of motion: the range of motion in the forwards and backwards direction in the swing phase
+- Max Anterior tilt: the maximum forward tilt of the hips
+- Min Anterior tilt: the minimum forwrd tilt of the hips
+- Sagittal range of motion: the range of motion in the forwards and backwards direction 
+- Max Hip Up - Early stance: the maximum hip travel in the upwards direction during the early stance
+- Min Hip Down - Late stance: the minimum hip travel in the downwards direction during the late stance phase
+- Contralateral drop: the contralateral drop of the foot
+- Contralateral elevation: the contralater elevation of the foot
+- Frontal range of motion: the range of motion in front of the hips in degrees
+- Min Hip Forward - IC: the minimum seperation distance between the hips in the forwards direction upon initial contact
+- Max Hip Back - Late stance: the seperation distance between the forward and backward hips in the late stance
+- Min Hip Forward - Late swing: the minimum seperation distance between the hips in the forward direction
+- Hip Back: the position of the backwards hip in the late swing
+- Hip Forward: the position of the leading hip in the late swing
+- Transverse range of motion: the lateral range of motion of the hips in degrees
+- Max Posterior Lean: the maximum lean in the backwards or posterior direction
+- Min Anterior Lean: the minimum lean in the forwards or anterior direction
+- Trunk-Pelvis - Sagittal ROM: the range of motion of the trunk compared to the pelvis in degrees
+- Min Early Stance - Frontal: the minimum seperation distance of the leading leg and the midplane in the early stance
+- Max Late Stance/Early Swing - Frontal: the maximum seperation distance of the leading leg and the midplane in the early swing
+- Max Trunk-Pelvis Angle Frontal: the maximum angle of the trunk-pelvis in the forward direction
+- Min Trunk - Pelvis Angle Frontal: the minimum angle of the trunk-pelvis in the forward direction
+- Trunk-Pelvis - Frontal ROM: the frontal range of motion of the trunk-pelvis
+- Min Early Stance - Transverse: the minimum seperation distance between the leg in the transverse direction and the midplane
+- Max Mid/Late stance - Transverse: the max seperation distance between the leg in the transverse direction and the midplane
+- Min Late Swing - Transverse: the seperation distance between the leg and the midplane in the late swing
+- Max Trunk-Pelvis Angle - Transverse: the maximum angle between the leg and the midplane in the lateral direction
+- Min Trunk-Pelvis Angle - Transverse: the minimum angle between the leg and the midplane in the lateral direction
+- Trunk-Pelvis - Transverse ROM: the transverse range of motion in degrees of the trunk and pelvis
+- Max anterior lean: the maximum forward lean in degrees of the top half of the body
+- Min anterior lean: the minimum forward lean in degrees of the top half of the body
+- Sagittal range of motion: the range of motion forwards and backwards during the late swing
+- Min Mid Stance - Frontal: the min seperation distance between the leading leg and the midplane during the mid stance
+- Max Early Swing - Frontal: the max seperation distance between the leading leg and the midplane during the mid stance
+- Ipsilateral  lean: the degree of ipsolateral leaning during the midstance
+- Min ipsilateral  lean: the mimimum degree of ipsolateral leaning  in the midstance phase. 
+- Frontal range of motion: the range of motion of the leg in degrees in front of the leg
+- Min Early Stance - Transverse: the min distance between the leg and midplane in the transverse direction in the early stance
+- Max Late Stance - Transverse: the maximum distance between the leg and the midplane in the transverse direction in the late stance
+- Min Swing - Transverse: the minimum distance between the leg and the midplane in the transverse direction
+- Ipsilateral shoulder forward: the max degree of ipsolateral movement in the leading shoulder
+- Min ipsilateral shoulder forward: the min degree of ipsolateral movement in the leading shoulder 
+- Transverse range of motion: the degree of transverse motion of the trunk
+- Dorsiflexion Mom - Loading response: the degree of maximum dorsiflextion in the loading response phase
+- Plantarflexion Mom - Terminal stance: the degree of maximum plantarflexion in the terminal stance
+- Power Abs - Loading response: the power sustained through the loading response
+- Power Abs - Terminal stance: the power sustained through the terminal stance
+- Power Gen - Preswing: the power generated in the preswing
+- Flexor Mom - Loading response: the degree of flexor moment in the loading response
+- Extensor Mom - Midstance: the degree of extensor moment in the midstance
+- Flexor Mom - Terminal stance: the degree of flexor moment in the terminal stance
+- Power Abs - Loading response: the power sustained through the loading response
+- Power Gen - Midstance: the power generated during the midstance
+- Power Gen - Terminal stance: the power generated during the terminal stance
+- Power Abs - Preswing: the power sustained through the preswing
+- Extensor Mom - Loading response: the degree of extensor moment during the loading response
+- Flexor Mom - Terminal stance: the degree of flexor moment during the terminal stance
+- Extensor Mom - Swing: the degree of extensor momement during the swing
+- Power Gen - Midstance: the power generated in the midstance
+- Power Abs - Terminal stance: the power sustained through the terminal stance
+- Power Gen - Terminal stance: the power generated in the terminal stance
+- First Vertical Peak: the first initial influx of power to propel the individual forwards
+- Minimum - Midstance: the amount of power generated in the midstance phase
+- Second Vertical Peak: the second influx of power to propel the individual forwards
+- Braking: (J/Kg) the power absorbed by the individual upon contact with the ground
+- Propulsion: (J/Kg) the power generated to propel the individual forward
+- Stance Time: the time that the individual spends in the terminal stance in seconds
+- Step Length: the length of the steps in meters
+- Step Time: the time to take a step in seconds
+- Stride Length: the time it takes to complete a full stride in seconds
+- Velocity: the velocity of the motion in meters per second
+
+
+Of all of these data columns, the ones that I am most interested for this analysis are the following:
+- Subject: the individual that is walking up and down the sloped surface who's movements are being analysed
+- Session: the type of prosthetic being tested (ESR = passive, BiOM = active)
+- Side: the side of the individual being analysed (prosthetic = amputated side, intact = healthy leg)
+- Power Gen - Preswing: (w) the power generated in the preswing
+- Power Gen - Midstance: (w) the power generated during the midstance
+- Power Gen - Terminal stance: (w) the power generated during the terminal stance
+- Braking: (J/Kg) the power absorbed by the individual upon contact with the ground
+- Propulsion: (J/Kg) the power generated to propel the individual forward
+
