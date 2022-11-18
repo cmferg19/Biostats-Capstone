@@ -92,6 +92,7 @@ levels(DF$Side)
 
 Now, lets take a look at the means of the combinations of each of these.  To do this, we will be using the `group_by()` and `summarize()` functions. 
 
+
 ```{r}
 meanDF <- DF %>% group_by(Side, Session) %>% summarise(meanDampening = mean(Braking))
 ```
@@ -113,6 +114,51 @@ ggplot(meanDF, aes(Side, meanDampening, color = Session, group = Session))+
      geom_line()+
      theme_bw()
 ```
+Now that we have this plotted, we can create the ANOVA model. 
+
+```{r}
+# use the lm() function to create the model
+model_dampening <- lm(Braking ~ Side+Session+Side*Session, data = DF)
+```
+
+Now check the assumptions using the `autoplot()` function.  The goal of this is to ensure that the data fit the normalized model that we are basing it off of
+
+```{r}
+autoplot(model_dampening, smooth.color = NA)
+```
+The first thing that we are going to look at is the Residuals vs Fitted graph.  Here, we are looking for the residuals to be distributed away from the curve at relatively equal distances.  From the graph generated using the `autoplot()` function, this appears to be the case.
+
+The next thing that we are looking for is to see if the points fall along the linear model for the Normal Q-Q graph.  Here, it looks like they do which means that the data do fit a normalized distribution.  
+
+Since the data passes both of these tests, we will proceed with this model and move on to taking a look a the model using the `anova()` function.  The `anova()` function does not actually perform an ANOVA test but it will give us a summary table of the relationships that we want to look at. 
+
+```{r}
+# generate ANOVA table
+anova(model_dampening)
+```
+```{r}
+# take a look at the summary
+summary(model_dampening)
+```
+
+After running through this, I think that I need to relevel these so everything is being compared to the Intact side as the control. Let's give it a shot.
+```{r}
+model_dampening2 <- lm(Braking ~ Side*Session, data = DF)
+
+autoplot(model_dampening2, smooth.color = NA)
+```
+
+```{r}
+# generate ANOVA table
+anova(model_dampening2)
+```
+```{r}
+# take a look at the summary
+summary(model_dampening2)
+```
+
+
+
 2 - way analysis of variance (chapter 6).  ANOVA (glm(damp~side+session+ side*session))
 
 3. Repeated measures analysis of variance - convert data from wide to long to look at phase and power generation
