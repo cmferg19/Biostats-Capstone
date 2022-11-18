@@ -114,11 +114,11 @@ ggplot(meanDF, aes(Side, meanDampening, color = Session, group = Session))+
      geom_line()+
      theme_bw()
 ```
-Now that we have this plotted, we can create the ANOVA model. 
+On this graph, it looks like the lines are not parallel which suggests that the type of prosthetic may impact the dampening compared to the intact leg.  Now that we have this plotted, we can create the ANOVA model. 
 
 ```{r}
 # use the lm() function to create the model
-model_dampening <- lm(Braking ~ Side+Session+Side*Session, data = DF)
+model_dampening <- lm(Braking ~ Session*Side, data = DF)
 ```
 
 Now check the assumptions using the `autoplot()` function.  The goal of this is to ensure that the data fit the normalized model that we are basing it off of
@@ -136,28 +136,17 @@ Since the data passes both of these tests, we will proceed with this model and m
 # generate ANOVA table
 anova(model_dampening)
 ```
-```{r}
-# take a look at the summary
-summary(model_dampening)
-```
-
-After running through this, I think that I need to relevel these so everything is being compared to the Intact side as the control. Let's give it a shot.
-```{r}
-model_dampening2 <- lm(Braking ~ Side*Session, data = DF)
-
-autoplot(model_dampening2, smooth.color = NA)
-```
+Based on this ANOVA table it looks like there is not a significant difference between the sides (intact vs prosthetic) but there is a significant difference in session which refers to the type of prosthetic used (BiOM vs ESR).  When the side and the types of prostheses are compared together however, there is not a significant difference between them (p = 0.3539)
 
 ```{r}
-# generate ANOVA table
-anova(model_dampening2)
+# take a look at the summary and comparisons between the specific conditions
+summary.lm(model_dampening)
 ```
-```{r}
-# take a look at the summary
-summary(model_dampening2)
-```
+The intercept is a combination of levels from the different factors.  In this case, I believe that it is Intact-BiOM.  So is is using the mean of the intact leg while walking with the BiOM prosthetic as the baseline of comparison.  
 
+Based on these results, I believe that the intercept in this case is the intact-BiOM 
 
+it appears that the type of prosthetic does not affect the dampening power of the intact leg when paired with the different types of prostheses. 
 
 2 - way analysis of variance (chapter 6).  ANOVA (glm(damp~side+session+ side*session))
 
