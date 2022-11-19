@@ -6,7 +6,7 @@ output: html_document
 ---
 
 # Overview
-Given that last time we cleaned up the data to seperate the variables that we are interested in out, now I am moving onto the data analysis phase.  I have three different hypothesis that I want to look at:
+Given that last time we cleaned up the data to separate the variables that we are interested in out, now I am moving onto the data analysis phase.  I have three different hypothesis that I want to look at:
 
   1.	Hypothesis: Since the active prosthetic is designed to mimic the natural motion of the body, I believe the active prosthetic will have more propulsion while walking uphill than the passive prosthetic. 
   
@@ -163,7 +163,9 @@ ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
      geom_line()+
      geom_errorbar(aes(ymin = meanDamp - seDamp,
                        ymax = meanDamp + seDamp), width = 0.1)+
-     theme_bw()
+     theme_bw()+
+    xlab("Type of Leg")+
+    ylab("Mean Dampening (J/Kg)")
 ```
 ## Comparing the Power Generated in Different Stance Phases
 The next thing that I am going to look at is the power generated in different phases of the stance.  To do this, I will perform a repeated measures analysis of variance test.  First I need to convert the data from a wide to long format. 
@@ -223,12 +225,10 @@ In this case the null hypothesis is that all of the means of the groups are equa
 Let's find a way to replot this in a way that shows the relationships between the different means better. This is a time-based set of data because it is based on gait phase. Because of this, I think a line plot would be a good way to model this. 
 
 ```{r}
-# create scatterplot with lines and error bars to model this
+# create scatterplot with lines to model this
 ggplot(DF_long, aes(Phase, Power))+
      geom_point()+
      geom_line()+
-     #geom_errorbar(aes(ymin = meanDamp - seDamp,
-                      # ymax = meanDamp + seDamp), width = 0.1)+
      theme_bw()
 ```
 This wasn't exactly what I was going for so first I think I need to calculate the means and standard error of these different values.
@@ -241,6 +241,10 @@ sum_power <-DF_long %>% group_by(Phase) %>% summarise(
      sePower = sd(Power)/sqrt(sum(!is.na(Power)))
 )
 
+# reassign the values of the different gait phases to make them show up nicer on the graph
+sum_power$Phase <- recode(sum_power$Phase, Power_Gen_Mid = 'Midstance', 
+                                       Power_Gen_Terminal = 'Terminal Stance',
+                                       Power_Gen_Pre = 'Preswing')
 ```
 
 Now let's give the line graph another shot:
@@ -251,10 +255,13 @@ ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
      geom_line()+
      geom_errorbar(aes(ymin = meanPower - sePower,
                        ymax = meanPower + sePower), width = 0.1)+
-     theme_bw()+
-    theme(legend.position="none")
+    theme_bw()+
+    theme(legend.position="none")+
+    xlab("Gait Phase")+
+    ylab("Power Generated (J/Kg)")
+    
 ```
-
+Based on this graph you can clearly see that none of the error bars for any of the stance phases overlap which indicates there is a significant difference between each of those. This supports our findings that show that gait phase does play a significant role in power generation while walking.
 
 
 
