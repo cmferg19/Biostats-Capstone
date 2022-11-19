@@ -182,7 +182,7 @@ Now that the data are in a long format and categorized appropriately, we can mov
 
 ```{r}
 # relevel the Phase factor to put the levels in the correct order which should be midstance, terminalstance, preswing
-Phase <- factor(DF_long$Phase, levels=c('Power_Gen_Mid', 'Power_Gen_Terminal', 'Power_Gen_Pre'))
+DF_long$Phase <- factor(DF_long$Phase, levels=c('Power_Gen_Mid', 'Power_Gen_Terminal', 'Power_Gen_Pre'))
 ```
 
 Now, let's make a boxplot of the data to take a look at the relationships between these variables. 
@@ -193,5 +193,68 @@ ggplot(DF_long, aes(Phase, Power)) +
   geom_boxplot()+
   geom_point(size = 3, colour = 'lightgrey', alpha = 0.5)
 ```
+From this, it looks like there is a difference in the power generated between the different phases.  Although it created this boxplot, I am a little confused as to why the levels are in the wrong level. 
+
+Actually never mind, I just realized I forgot to specify the specific column.  I fixed this by using `DF_long$Phase <- refactoring code`. 
+
+Now we are going to look at this at a deeper level using a repeated measures ANOVA analysis.  This is a good choice to compare the differences in power because repeated measures are commonly used to determine whether there is a statistically significant difference in the means of groups that have three or more categories with the same individuals partaking in each.
+
+```{r}
+# to do this I will use the aov() function to generate a model
+#fit repeated measures ANOVA model
+power_model <- aov(Power~factor(Phase)+Error(factor(Subject)), data = DF_long)
+```
+
+The model ran which is good. Now we are going to take a look at the  assumptions and the model summary.
+
+```{r}
+# check assumptions
+autoplot(model_dampening, smooth.color = NA)
+```
+The assumptions look good.  The residuals are evenly distributed from the line and the points fit a normalized distribution of the data as shown by the Normal Q-Q line. 
+
+```{r}
+# run a summary of the model
+summary(power_model)
+```
+
+In this case the null hypothesis is that all of the means of the groups are equal.  However, the P-value for this test indicates there is a significant difference between the means of the different gait phases.
+
+Let's find a way to replot this in a way that shows the relationships between the different means better. This is a time-based set of data because it is based on gait phase. Because of this, I think a line plot would be a good way to model this. 
+
+```{r}
+# create scatterplot with lines and error bars to model this
+ggplot(DF_long, aes(Phase, Power))+
+     geom_point()+
+     geom_line()+
+     #geom_errorbar(aes(ymin = meanDamp - seDamp,
+                      # ymax = meanDamp + seDamp), width = 0.1)+
+     theme_bw()
+```
+This wasn't exactly what I was going for so first I think I need to calculate the means and standard error of these different values.
+
+```{r}
+# calculate the means and standard errors of these by group
+
+sum_power <-DF_long %>% group_by(Phase) %>% summarise(
+     meanPower = mean(Power),
+     sePower = sd(Power)/sqrt(sum(!is.na(Power)))
+)
+
+```
+
+Now let's give the line graph another shot:
+```{r}
+# create scatterplot with error bars
+ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
+     geom_point()+
+     geom_line()+
+     geom_errorbar(aes(ymin = meanPower - sePower,
+                       ymax = meanPower + sePower), width = 0.1)+
+     theme_bw()+
+    theme(legend.position="none")
+```
+
+
 
 
