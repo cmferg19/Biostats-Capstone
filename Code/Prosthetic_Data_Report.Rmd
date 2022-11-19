@@ -8,7 +8,9 @@ output: html_document
 # Introduction
 Approximately 1.9 million individuals in the United States alone are living with limb loss - a number that is only projected to up with the rise in prevalence of diseases such as diabetes [1].  To meet the increasing demand for functional and adaptive devices, balancing cost and functionality of prosthetic devices is of upmost concern while advancing the technology available to patients.
 
-Currently, there are two main types of lower leg prosthetic devices available on the market - active prostheses and passive prostheses. The microprocessor serves to adjust the angle of the foot of the prosthetic before the user touches the ground – mimicking the natural motion of the ankle1.  The goal of this small adjustment is to limit the strain on the rest of the body by reducing the amount of force needed to move the prosthetic and compensate for improper body positioning. 
+Currently, there are two main types of lower leg prosthetic devices available on the market - active prostheses and passive prostheses. Active prosthetic devices have a microprocessor that is incorporated into the ankle joint.  This serves to adjust the angle of the foot of the prosthetic before the user touches the ground – mimicking the natural motion of the ankle [2].  The goal of this small adjustment is to limit the strain on the rest of the body by mimicking the natural motion of the ankle - thus reducing the amount of force needed to compensate while moving the prosthetic device. Active prostheses are typically more expensive and require additional maintenance such as charging but have been shown to alleviate some additional strain associated with prosthetic compensation [2].
+
+Passive prostheses are the other class of prosthetic devices that do not contain a microprocessor.  As such, they do not require charging or as much maintenance but they are less tunable to the individual's biomechanics. 
 
 
 The data set that I am looking at focuses on the biomechanics of a prosthetic leg with a microprocessor computer in it and an passive prosthetic leg without one.   With this in mind, I hope to explore the relationship between prosthetic type – active (with microcontroller) vs passive (without microcontroller).  
@@ -21,4 +23,4 @@ The data set that I am looking at focuses on the biomechanics of a prosthetic le
 # References
 [1] Balk EM, Gazula A, Markozannes G, et al. Lower Limb Prostheses: Measurement Instruments, Comparison of Component Effects by Subgroups, and Long-Term Outcomes [Internet]. Rockville (MD): Agency for Healthcare Research and Quality (US); 2018 Sep. (Comparative Effectiveness Review, No. 213.) Evidence Summary. Available from: https://www.ncbi.nlm.nih.gov/books/NBK531527/
 
-[2] 
+[2] Childers, W. L., & Takahashi, K. Z. (2018). Increasing prosthetic foot energy return affects whole-body mechanics during walking on level ground and slopes. Scientific Reports 2018 8:1, 8(1), 1–12. https://doi.org/10.1038/s41598-018-23705-8
