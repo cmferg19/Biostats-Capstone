@@ -22,6 +22,7 @@ rm(list = ls())
 # import the modules that we need
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 library(ggfortify)
 library(here)
 ```
@@ -164,9 +165,33 @@ ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
                        ymax = meanDamp + seDamp), width = 0.1)+
      theme_bw()
 ```
+## Comparing the Power Generated in Different Stance Phases
+The next thing that I am going to look at is the power generated in different phases of the stance.  To do this, I will perform a repeated measures analysis of variance test.  First I need to convert the data from a wide to long format. 
 
-2 - way analysis of variance (chapter 6).  ANOVA (glm(damp~side+session+ side*session))
+```{r}
+# convert the data to long format
+DF_long <- pivot_longer(DF, names_to = "Phase", cols = Power_Gen_Pre:Power_Gen_Terminal,  values_to = "Power")
 
-3. Repeated measures analysis of variance - convert data from wide to long to look at phase and power generation
+# convert the phase data from character data to factor data
+DF_long$Phase <- as.factor(DF_long$Phase)
 
-Now I am going to plot a 
+levels(DF_long$Phase)
+```
+
+Now that the data are in a long format and categorized appropriately, we can move forward with the analysis. The first thing that I am going to do is relevel the factors to put them in the correct order.  
+
+```{r}
+# relevel the Phase factor to put the levels in the correct order which should be midstance, terminalstance, preswing
+Phase <- factor(DF_long$Phase, levels=c('Power_Gen_Mid', 'Power_Gen_Terminal', 'Power_Gen_Pre'))
+```
+
+Now, let's make a boxplot of the data to take a look at the relationships between these variables. 
+
+```{r}
+# make a boxplot of the data
+ggplot(DF_long, aes(Phase, Power)) +
+  geom_boxplot()+
+  geom_point(size = 3, colour = 'lightgrey', alpha = 0.5)
+```
+
+
