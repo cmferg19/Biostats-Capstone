@@ -142,12 +142,31 @@ Based on this ANOVA table it looks like there is not a significant difference be
 # take a look at the summary and comparisons between the specific conditions
 summary.lm(model_dampening)
 ```
-The intercept is a combination of levels from the different factors.  In this case, I believe that it is Intact-BiOM.  So is is using the mean of the intact leg while walking with the BiOM prosthetic as the baseline of comparison.  
+The intercept is a combination of levels from the different factors.  In this case, I believe that it is Intact-BiOM.  So is is using the mean of the intact leg while walking with the BiOM prosthetic as the baseline of comparison.  However, the results of this show that the slopes between these two comparisons are not great enough to warrant a significant difference.  Let's replot to take a closer look at this relationship:
 
-Based on these results, I believe that the intercept in this case is the intact-BiOM 
+```{r}
+# first grab the standard error values to report
 
-it appears that the type of prosthetic does not affect the dampening power of the intact leg when paired with the different types of prostheses. 
+sumDF<-DF %>% group_by(Side, Session) %>% summarise(
+     meanDamp = mean(Braking),
+     seDamp = sd(Braking)/sqrt(sum(!is.na(Braking)))
+)
+```
+
+Now we will incorporate these values into our plot to add error bars to the plot
+
+```{r}
+# create scatterplot with error bars
+ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
+     geom_point()+
+     geom_line()+
+     geom_errorbar(aes(ymin = meanDamp - seDamp,
+                       ymax = meanDamp + seDamp), width = 0.1)+
+     theme_bw()
+```
 
 2 - way analysis of variance (chapter 6).  ANOVA (glm(damp~side+session+ side*session))
 
 3. Repeated measures analysis of variance - convert data from wide to long to look at phase and power generation
+
+Now I am going to plot a 
