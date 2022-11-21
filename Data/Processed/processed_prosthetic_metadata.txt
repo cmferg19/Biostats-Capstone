@@ -1,0 +1,21 @@
+Cora Ferguson
+
+This metadata file outlines the parameters of the processed data from the paper "Evaluation of a Powered Ankle-Foot 
+Prosthesis during Slope Ascent Gait" by investigators Christopher A. Rabago, Jennifer Aldrige Whitehead,
+and Jason M. Wilken. The processed data has taken the key variables that I am interested in analysing from the original 
+data to investigate how different prosthetics impact long term health outcomes in amputees. 
+
+Citation: Rábago, C. A., Whitehead, J. A., &#38; Wilken, J. M. (2016). Evaluation of a powered ankle-foot 
+prosthesis during slope ascent gait. <i>PLoS ONE</i>, <i>11</i>(12). https://doi.org/10.1371/journal.pone.0166815</div>
+
+Description of the columns:
+Subject - The number assigned to participants involved in the study
+Session - the type of prosthetic being used, the options are BiOM (active) and ESR (passive)
+Side - The leg being studied so either the intact leg or the prosthetic leg
+Slope - The degree of the surface the study participants are walking up
+Power_Gen_Pre - The power generated in the pre swing phase of the gait (J/Kg)
+Power_Gen_Mid - The power generated in the midswing phase of the gait (J/Kg)
+Power_Gen_Terminal - The power generated in the terminal phase of the gait (J/Kg)
+Propulsion - The amount of propulsion generated (J/kg)
+Braking - Also refered to as dampening, the amount of energy absorbed by the leg (J/Kg)
+Velocity - The speed of walking (m/s)
