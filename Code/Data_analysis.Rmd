@@ -173,10 +173,10 @@ This motivates us to proceed with the repeated measures ANOVA analysis.
 
 ```{r}
 # Use the aov() function to generate a repeated ANOVA model
-power_model <- aov(Power~factor(Phase)+Error(factor(Subject)), data = DF_long)
+power_model <- aov(Power~factor(Phase), data = DF_long)
 ```
 
-Check the asssumptions to ensure this model is a good way to represent this data. 
+Check the assumptions to ensure this model is a good way to represent this data. 
 ```{r}
 # check assumptions
 autoplot(power_model, smooth.color = NA)
@@ -192,7 +192,7 @@ For repeated measures of variance, the null hypothesis states that the means for
 
 Let's replot this in a way that shows the relationships between the means better.  
 
-```{r}
+```{r include=FALSE}
 # calculate the means and standard errors of these by group
 
 sum_power <-DF_long %>% group_by(Phase) %>% summarise(
