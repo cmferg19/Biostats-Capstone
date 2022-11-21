@@ -41,7 +41,7 @@ Propulsion refers to the amount of supplementary force that the prosthetic provi
 ### Preliminary Data Modeling
 These two classes generate propulsion in different ways.  A histogram can be used to model the spread of the variance in propulsion between these two prosthetic types.
 
-```{r fig.cap="Figure 1. Distribution of the propulsion data between the active (BioM) and passive (ESR) prosthetic models. "}
+```{r fig.align='center', fig.cap="Figure 1. Distribution of the propulsion data between the active (BioM) and passive (ESR) prosthetic models. "}
 # make a histogram of the propulsion based on prosthetic type
 ggplot(filter(DF, Side == "Prosthetic"), aes(x = Propulsion))+
   geom_histogram(binwidth = 0.05)+
@@ -128,7 +128,7 @@ summary.lm(model_dampening)
 ```
 The results of this summary show that the slopes between these two comparisons are not large enough to warrant a significant difference between the dampening effects of the different types of prosthetic models when compared to the dampening of the intact leg. 
 ### Replotting to Show Statistical Relevance
-```{r fig.align='center', fig.cap="Figure 5. The mean dampening power of the intact leg while walking with the BiOM prosthetic model ($-0.179 \pm 0.023$). The mean dampening of the intact leg while walking with the ESR prosthetic model($-0.154 \pm 0.009$). These values are compared to the mean dampening power of the BiOM($-0.192 \pm 0.023$) and ESR($-0.134 \pm 0.009$) prosthetic models."}
+```{r fig.align='center', fig.cap="Figure 5. The mean dampening power of the intact leg while walking with the BiOM prosthetic model (-0.179 ± 0.023). The mean dampening of the intact leg while walking with the ESR prosthetic model(-0.154 ± 0.009). These values are compared to the mean dampening power of the BiOM(-0.192 ± 0.023) and ESR(-0.134 ± 0.009) prosthetic models."}
 # grab the standard error values to report
 
 sumDF<-DF %>% group_by(Side, Session) %>% summarise(
@@ -199,7 +199,7 @@ summary(power_model)
 For repeated measures of variance, the null hypothesis states that the means for each of the groups is equal.  The p-value for this test indicates there is a significant difference between the power generated in different gait phases.
 
 ### Replotting to Show Statistical Relevance
-```{r fig.align='center', fig.cap="Figure 8. The mean \pm standard error of the power generated in the mid stance ($-0.41775 \pm 0.0499$), the terminal stance ($0.84425 \pm 0.0753$), and the preswing ($3.6033 \pm 0.2789$)"}
+```{r fig.align='center', fig.cap="Figure 8. The mean ± standard error of the power generated in the mid stance (-0.41775 ± 0.0499), the terminal stance (0.84425 ± 0.0753), and the preswing (3.6033 ± 0.2789)"}
 # calculate the means and standard errors of these by group
 
 sum_power <-DF_long %>% group_by(Phase) %>% summarise(
