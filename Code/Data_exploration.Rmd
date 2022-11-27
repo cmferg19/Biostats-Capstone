@@ -26,6 +26,16 @@ DF <- read.csv(here("Data", "prosthetic_analysis.csv"), stringsAsFactors = TRUE)
 glimpse(DF)
 ```
 
+you moved your data into the Raw folder so the read.csv call doesn't work. Make sure to fix that.
+
+```{r}
+DF <- read.csv(here("Data", "Raw","prosthetic_analysis.csv"), stringsAsFactors = TRUE)
+
+# take an initial look at the structure of the data set
+glimpse(DF)
+```
+
+
 # Data Exploration
 Now, the three things that I want to analyse within this data set are: 
 1. The propulsion of the different types of prosthetic while walking uphill compared to the intact leg.
@@ -33,6 +43,8 @@ Now, the three things that I want to analyse within this data set are:
 3. The relationship between stance and overall swing velocity.
 
 After looking at the data initially, there is a lot of information inside of it.  The first thing that we are going to do is simplify things by taking out the data we want and placing it into a new data frame.
+
+Good idea!
 
 ```{r}
 # select the data that we want from the current data set
@@ -155,7 +167,14 @@ geom_boxplot()+
   
   
 ```
-This is interesting, the spread of the data looks pretty much identical.  Also, according to these plots it looks like there may be an outlier at the same spot for both.  I feel like this is too much of a coincidence to be an outlier so we will keep that point in.  Now let's investigate whether there is a difference between the prosthesis types:
+This is interesting, the spread of the data looks pretty much identical.  Also, according to these plots it looks like there may be an outlier at the same spot for both.  I feel like this is too much of a coincidence to be an outlier so we will keep that point in.  
+
+Ok - I looked more closely, and these data ARE identical. I can't picture that happening by chance. Is there a chance that the velocity was somehow set by the researchers? Or is velocity a variable that is measured for the trial and is assigned the same value for both legs (i.e. the person is moving at a particular velocity, which means both legs are moving at the same velocity, in which case they should be the same for the intact and prosthetic leg...)
+
+
+
+
+Now let's investigate whether there is a difference between the prosthesis types:
 
 ```{r}
 # make a histogram of the velocity based on prosthetic type
@@ -168,6 +187,8 @@ From the first initial glance it does look like there may be a difference here. 
 ## Data Exploration Conclusion
 From this process we were able to look a little closer at the spread and the central tendencies of the data.  It also helped us take a look at different potential outliers and determine whether to keep them in the dataset or not.  Right now it appears that the spread of the data may support the initial hypotheses that I made but I will have to complete the full data analysis to determine whether there is a level of significance within the data to support those hypotheses. 
 
+
+Good thorough exploration. See my various comments above.
 Now that I have completed the data exploration phase and cleaning the data, I will save the processed data as a new .csv file to use for analysis.
 
 ```{r}
