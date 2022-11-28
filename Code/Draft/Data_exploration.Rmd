@@ -20,7 +20,7 @@ Now I will pull in the dataset that I selected for the capstone project.  The da
 
 ```{r}
 # import data set using read.csv() and stringsAsFactors = TRUE to import the categorical data as factors with levels that we can look at
-DF <- read.csv(here("Data", "prosthetic_analysis.csv"), stringsAsFactors = TRUE)
+DF <- read.csv(here("Data", "Raw", "prosthetic_analysis.csv"), stringsAsFactors = TRUE)
 
 # take an initial look at the structure of the data set
 glimpse(DF)
@@ -157,7 +157,7 @@ ggplot(filter(DF_refined, Side == "Prosthetic"), aes(x = Braking))+
 This gives us some more insight into how the micro controller inside of the BiOM prosthetic may work to reduce the overall stresses on the body. Again however, more analysis is needed before we see if there is a significant impact here. 
 
 ### Velocity
-The last thing that I want to look at is velocity.  If the user is swinging the prosthetic too fast and spending more time on their intact leg, it could indicate that they are compensting more which would increase the extra stress and strain on their body. Step velocity is a good way to measure this because it tells us whether there is a side that they prefer. To take a look at this, we will go through the same process as before but instead create a boxplot of the data: 
+The last thing that I want to look at is velocity.  If the user is swinging the prosthetic too fast and spending more time on their intact leg, it could indicate that they are compensating more which would increase the extra stress and strain on their body. Step velocity is a good way to measure this because it tells us whether there is a side that they prefer. To take a look at this, we will go through the same process as before but instead create a boxplot of the data: 
 
 ```{r}
 # use a boxplot to look at the spread of the velocity data
