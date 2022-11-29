@@ -68,20 +68,22 @@ meanpropDF<-DF_prosthetic %>% group_by(Session) %>% summarise(
 
 
 # make a scatter plot comparing the distribution of propulsion values between the active and passive prostheses
-propscatter <- ggplot(DF_prosthetic, aes(Session, Propulsion, colour = Session))+
-     xlab("Type of Prosthetic")+
-     ylab("Propulsion (J/Kg)")+
-     geom_jitter(width = 0.1)+
-     theme_bw()+
-     theme(legend.position="none")
+propscatter <- ggplot(DF_prosthetic, aes(Session, Propulsion, colour = Session), size = 3, alpha = 0.5)+
+  xlab("Type of Prosthetic")+
+  ylab("Propulsion (J/Kg)")+
+  geom_jitter(width = 0.1)+
+  theme_bw()+
+  theme(legend.position="none")
+
+propscatter
 
 propscatter+
-geom_point(meanpropDF, mapping = aes(Session, meanProp))
+geom_point(meanpropDF, mapping = aes(Session, meanProp), size = 4, alpha = 1)
 
   
   
 ```
-It might be nice to also plot the mean for each group as points on the plot, sort of like what happens in Chapter 5 fig 5.11 and you might make these points larger, as well.
+
 
 ## Comparing Dampening Between Prosthetic Types and The Intact Leg
 To make this comparison, I am going to perform a two-way ANOVA. The goal is to compare the dampening performance between prostheses and intact legs and see if the type of prosthetic has an effect on dampening performance.
@@ -115,15 +117,9 @@ ggplot(meanDF, aes(Side, meanDampening, color = Session, group = Session))+
      ylab("Mean Dampening (J/Kg)")+
      xlab("Type of Leg")
 ```
-Since the lines do not appear to be parallel, it suggests that the prosthetic type may impact dampening of the prosthetic leg as well as the intact leg.  
+Since the lines do not appear to be parallel, it suggests that the prosthetic type may impact dampening of the prosthetic leg as well as the intact leg.  Based on how these slopes are very distinctly positive and negative, I do think that the difference in dampening between the prosthetic types will be significant. 
 
-And would you guess that the difference might be significant?
-
-I think the way I would say it is that how much dampening occurs depends on both leg type and prosthetic type.
-
-
-
-Performing a two way ANOVA will give us more insight on this. 
+Compared to the different types of prosthetic legs, the intact leg dampening values are much closer together.  Because of this, I don't think that there will be a significant different between the dampening of the intact legs.  Performing a two way ANOVA will give us more insight on this. 
 
 ```{r}
 # use the lm() function to create the model
@@ -139,21 +135,20 @@ The first thing that we are going to look at is the Residuals vs Fitted graph.  
 
 The next thing that we are looking for is to see if the points fall along the linear model for the Normal Q-Q graph.  Here, it looks like they do which means that the data do fit a normalized distribution.
 
-Good and I agree.
 
 ```{r}
 # generate ANOVA table
 anova(model_dampening)
 ```
-Based on this ANOVA table it looks like there is not a significant difference between the sides (intact vs prosthetic) but there is a significant difference in session which refers to the type of prosthetic used (BiOM vs ESR).  When the side and the types of prostheses are compared together however, there is not a significant difference between them (p = 0.3539)
+Based on this ANOVA table it looks like there is not a significant difference between the sides (intact vs prosthetic) but there is a significant difference in session which refers to the type of prosthetic used (BiOM vs ESR).  When the side and the types of prostheses are compared together however, there is not a significant difference between them (p = 0.3539).  
 
-True. So how might you say that to really hit home the key message?
+This means that the type of prosthetic is more important when investigating the amount of force absorbed by the individual. In both cases, the differences in dampening by the intact leg is insignificant so in the future, researchers should focus on determining different ways to improve dampening within the prosthetic.  Improving the dampening effects of the prosthetic would reduce the force sent into the residual limb and help mitigate the incidences of overuse injuries in the future. 
 
 ```{r}
 # take a look at the summary and comparisons between the specific conditions
 summary.lm(model_dampening)
 ```
-The results of this summary show that the slopes between these two comparisons are not large enough to warrant a significant difference between the dampening effects of the different types of prosethetics on the dampening of the intact leg.  
+The results of this summary show that the slopes between these two comparisons are not large enough to warrant a significant difference between the dampening effects of the different types of prosthetic models on the dampening of the intact leg.  This  further supports the analysis motivating additional research into dampening for different prosthetic leg models. 
 
 ```{r}
 # grab the standard error values to report
@@ -171,13 +166,13 @@ ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
                        ymax = meanDamp + seDamp), width = 0.1)+
      theme_bw()+
     xlab("Type of Leg")+
-    ylab("Mean Dampening (J/Kg)")
+    ylab("Mean Dampening (J/Kg)")+
+    annotate("text", x = 2.4 , y = -0.22,
+    label = "n = 12")
 ```
-This figure shows how the error in the measurements for the dampening with the intact leg under both of the different types of prostheses overlaps which supports the results of the two-way ANOVA findings.  Between the two different Prosthetic conditions, the error bars do not overlap which supports the finding that there is a significant difference in dampening between the types of prostheses.
+This figure shows how the error in the measurements for the dampening with the intact leg under both of the different types of prostheses overlaps which supports the results of the two-way ANOVA findings.  Between the two different Prosthetic conditions, the sample sizes are the same so the overlapping error bars as observed in the "intact" condition indicate that the p-value is much greater than 0.05. In contrast, since the error bars for the prosthetic models do not overlap but since the error bars refer to standard error, we cannot draw a direct conclusion from this.
 
-Gen Bio sent us all on a terrible wild goose chase regarding overlapping error bars. Here's more on that topic: https://www.graphpad.com/support/faqid/1362/
-
-That said, since your sample sizes are about equal, if you printed the sample size on the plot, it would be helpful for interpreting the standard error bars you have plotted.
+However, we do know from the two-way ANOVA that there is a statistically significant difference between the two prosthetic models so we can use that information to complete the analysis. 
 
 
 ## Comparing the Power Generated in Different Stance Phases
@@ -194,13 +189,10 @@ levels(DF_long$Phase)
 # relevel the Phase factor to put the levels in the correct order which should be midstance, terminalstance, preswing
 DF_long$Phase <- factor(DF_long$Phase, levels=c('Power_Gen_Mid', 'Power_Gen_Terminal', 'Power_Gen_Pre'))
 ```
-Good!
-
 
 Generate a boxplot of the data to take a look at the initial relationships between these variables. 
 
 ```{r}
-
 # make a boxplot of the data
 ggplot(DF_long, aes(Phase, Power)) +
   geom_boxplot()+
@@ -208,7 +200,6 @@ ggplot(DF_long, aes(Phase, Power)) +
 ```
 The spread of the boxplot suggests that there is a difference between the power generated during different gait phases. 
 
-What does the histogram faceted by Phase look like?
 
 This plot also suggests that R is not recognizing that Phase is an ordered factor (pre comes before mid before terminal). If it did, it would plot the boxes in that order.
 
@@ -226,22 +217,29 @@ DF_long$Phase<-factor(DF_long$Phase,
 
 is.ordered(DF_long$Phase)
 ```
+Now lets make a histogram and facet it by phase to look at these in the correct order:
 
-
-This motivates us to proceed with the repeated measures ANOVA analysis.
+```{r}
+# make a histogram of the power generated separated by phase
+ggplot(DF_long, aes(x = Power))+
+    geom_histogram(binwidth = 0.25)+
+    facet_wrap(~Phase)
+```
+Based on these histograms, it looks like the data is all relatively normally distributed.  If anything, the power generated in the terminal phase may be slightly left skewed but from the box plot it looks like the mean is in the center of the data so we will proceed with the repeated measures ANOVA analysis.
 
 ```{r}
 # Use the aov() function to generate a repeated ANOVA model
-power_model <- aov(Power~factor(Phase), data = DF_long)
+power_model <- aov(Power~Phase, data = DF_long)
+
+power_model2 <- glm(Power~Phase, data = DF_long)
 ```
-
-You don't need the `factor() around Phase since it is already a factor variable.
-
 
 Check the assumptions to ensure this model is a good way to represent this data. 
 ```{r}
 # check assumptions
 autoplot(power_model, smooth.color = NA)
+
+autoplot(power_model2, smooth.color = NA)
 ```
 The assumptions look good.  The residuals are evenly distributed from the line and the points fit a normalized distribution of the data as shown by the Normal Q-Q line.
 
@@ -273,7 +271,7 @@ sum_power$Phase <- recode(sum_power$Phase, Power_Gen_Mid = 'Midstance',
 Create a graph summarizing these results:
 ```{r}
 # create scatterplot with error bars
-ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
+ggplot(sum_power, aes(Phase, meanPower, colour = Phase))+
      geom_point()+
      geom_line()+
      geom_errorbar(aes(ymin = meanPower - sePower,
@@ -284,7 +282,6 @@ ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
     ylab("Power Generated (J/Kg)")
     
 ```
-Based on this graph you can clearly see that the error bars do not overlap.  This supports the results of the repeated measures of variance indicating there is a significant difference between the phases (p = 155.4 <2e-16). Therefore, gait phase does play a significant role in power generation while walking.
+This graph supports the results of the repeated measures of variance indicating there is a significant difference between the phases (p = 155.4 <2e-16). Therefore, gait phase does play a significant role in power generation while walking.
 
-Good.
 
