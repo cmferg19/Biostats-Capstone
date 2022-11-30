@@ -1,7 +1,7 @@
 ---
 title: "Lower limb prosthetic gait analysis to identify factors contributing to long term adverse health outcomes in amputees"
 author: "Cora Ferguson"
-date: "2022-11-19"
+date: "2022-30-19"
 output: html_document
 ---
 
@@ -21,30 +21,44 @@ DF <- read.csv(here("Data", "Processed", "processed_prosthetic_analysis.csv"))
 ```
 
 # Introduction
-In the United States alone, approximately 1.9 million individuals are living with lower limb loss [1].  Lower limb loss is characterized by amputation below the knee.  A variety of different conditions contribute to lower limb loss including traumatic injuries, diabetes, peripheral artery disease, and more.  With the rise in the prevalence of these diseases, the number of individuals facing lower limb loss is projected to go up. To meet the increasing demand for prosthetic devices, new technology is being developed with the goal of balancing cost, functionality, and comfort for these patients.  
+- In the Untied States, 1.9 million individuals are living with lower limb loss [1]
+- factors that contribute to lower limb loss:
+    - trauma, diabetes, peripheral artery disease [1][2]
 
-While prosthetic devices improve mobility, long term use of these devices impacts the natural motion of the body as individuals often have to compensate with other parts of their body to remain balanced.  This places additional stress on the body and one's risk for adverse health outcomes such as chronic pain, arthritis, joint problems, and more [2].
 
-```{r img-knitr, echo=FALSE, fig.align='center', out.width='40%', fig.cap='Figure 1. A) An example of an active prosthetic limb.  The ankle has a microcontroller in it to adjust the degree of the ankle and increase the range of motion. B) An example of a passive prosthetic. These systems use a series of mechanisms and material properties to allow for movment.'}
+# Prosthetic design
+- Comfort, accessibility, function, and biomechanics
+  - long term use impacts natural motion of body
+  - contributes to adverse health outcomes such as chronic pain, arthritis, joint problems, and more [2]
+  
+  
+  
+## The two main types of models available today:
+```{r img-knitr, echo=FALSE, fig.align='center', out.width='50%', fig.cap='Figure 1. A) An example of an active prosthetic limb.  The ankle has a microcontroller in it to adjust the degree of the ankle and increase the range of motion. B) An example of a passive prosthetic. These systems use a series of mechanisms and material properties to allow for movment.'}
 knitr::include_graphics(here("Images", "Activevspassiveprostheses.png"))
 ``` 
 
-Currently, there are two main types of prosthetic devices available on the market.  These are categorized as either active or passive. Active prosthetic devices have a microprocessor incorporated into the ankle joint.  The purpose of the microprocessor is to better mimic the natural motion of the foot and ankle by adjusting the angle of the foot of the prosthetic in real time [3].  The goal of this small adjustment is to reduce the strain on the rest of the body by reducing the amount of compensation force necessary to move the prosthetic device. Active prostheses are typically more expensive and require additional maintenance but have been shown to alleviate additional strain associated with prosthetic compensation [3].
+#### Active Prosthetic Models
+- Have microcontroller to adjust power, angle, etc.
+- designed to mimic natural movement of body [3]
 
-Passive prosthetic devices do not contain a microcontroller.  Instead, they rely on the compressability of the materials that the prosthetic is constructed out of to create force to propel individuals forward.  Because of this, they do not require charging but they are less tunable to the individual's biomechanics.  Additionally, more compensation force is required to move passive prosthetic devices because they are unable to make real time adjustments to match the terrain or speed of walking.  
+#### Passive Prosthetic Models
+- Do not have microcontroller
+- use material properties to for power and force absorption
 
-The purpose of this project is to analyse the differences between an active prosthetic model leg (BiOM) and a passive prosthetic model leg (ESR) while individuals walk uphill at a 5% slope [4]. Ultimately, this analysis will provide insight into different ways that these prosthetic models differ and how those differences could influence the natural biomechanics of the body and contribute to long term adverse health outcomes for amputees. 
 
-# Data Analysis
-The program *RStudio* is used to perform the statistical analysis and model the relationships between variables.  To look deeper at how different types of prosthetic devices contribute to various health outcomes, I am interested in investigating the propulsion generated between the two models, the dampening effects, and the power generated in different gait phases. Each of these metrics provide insight into the degree of compensation that is required for functional use of the prosthetic.
+<br>
 
-## Investigating Propulsion
-Propulsion refers to the amount of supplementary force that the prosthetic provides.  Biologically, propulsion is generated using different muscles in the ankle and foot which allow you to push off the ground and propel yourself forward. Prosthetic devices generate this force differently using materials.  Active prosthetic devices have hydraulic and motor systems that are able to provide this force [2].  Passive prosthetic devices rely on the physical properties of different materials such as carbon fiber that allow the device to compress and rebound in response to loading forces.
 
-### Preliminary Data Modeling
-These two classes generate propulsion in different ways.  A histogram can be used to model the spread of the variance in propulsion between these two prosthetic types.
+# Goal: Analyse the differences between active and passive prosthetic models to investigate how these models may contribute to adverse health outcomes
+ - Propulsion
+ - Dampening
+ - Power Generation
 
-```{r fig.align='center', fig.cap="Figure 2. Distribution of the propulsion data between the active (BioM) and passive (ESR) prosthetic models. "}
+
+
+## Propulsion
+```{r fig.align='center',echo = FALSE, fig.cap="Figure 2. Distribution of the propulsion data between the active (BioM) and passive (ESR) prosthetic models. "}
 # make a histogram of the propulsion based on prosthetic type
 ggplot(filter(DF, Side == "Prosthetic"), aes(x = Propulsion))+
   geom_histogram(binwidth = 0.05)+
@@ -53,41 +67,41 @@ ggplot(filter(DF, Side == "Prosthetic"), aes(x = Propulsion))+
   ylab("Number of Observations")
   
 ```
-There appears to be some variance in the propulsion generated between the two prosthetic types.  Most of the values are distributed between 0.1 and 0.2 J/Kg but there is an instance where the active prosthetic had a propulsion around 0.4 J/Kg.  This could be an outlier but I will keep it in the dataset as these data were collected by calibrated biosensors. Keeping this in mind, we will analyse whether there is a significant difference in propulsion generated by these methods by using a two-sample ttest.
 
-#### Two-Sample T Test
+#### Two-Sample T Test:
 ```{r include=FALSE}
 # separate the prosthetic data from the data corresponding to the intact leg data.
 DF_prosthetic <- DF %>% filter(Side == "Prosthetic")
 ```
 
-```{r}
+```{r echo = FALSE}
 # perform two sample t test
 t.test(Propulsion ~ Session, data = DF_prosthetic)
 ```
-The two-sample t test shows there is no significant difference between the propulsion generated by the active and passive prosthetic devices (p = 0.0125). 
 
-#### Replotting to Show Statistical Relevance
-```{r fig.align='center', fig.cap="Figure 3. The distributino of the amount of propulsion generated between the BiOM (active) and ESR (passive) prosthetic models."}
-# calculate the standard error values to report
-sum_Propulsion <- DF %>% group_by(Session) %>% summarise(
-     meanPropulsion = mean(Propulsion),
-     sePropulsion = sd(Propulsion)/sqrt(sum(!is.na(Propulsion)))
-)
+#### Results: 
+- No significant difference between the propulsion generated by the active and passive prosthetic devices (p = 0.0125) 
+- Propulsion force is similar between these two prosthetic models
+
+```{r fig.align='center',echo = FALSE, fig.cap="Figure 3. The distribution of the propulsion generated between the BiOM (active) and ESR (passive) prosthetic models. The larger dots indicate the mean propulsion generated by the respective prosthetic models."}
+# calculate the means propulsion values
+meanpropDF<-DF_prosthetic %>% group_by(Session) %>% summarise(
+     meanProp = mean(Propulsion),
+     sePropulsion = sd(Propulsion)/sqrt(sum(!is.na(Propulsion))))
 
 # make a scatter plot comparing the distribution of propulsion values between the active and passive prostheses
-ggplot(DF_prosthetic, aes(Session, Propulsion, colour = Session))+
-     xlab("Type of Prosthetic")+
-     ylab("Propulsion (J/Kg)")+
-     geom_jitter()+
-     theme_bw()+
-     theme(legend.position="none")
+propscatter <- ggplot(DF_prosthetic, aes(Session, Propulsion, colour = Session), size = 3, alpha = 0.5)+
+  xlab("Type of Prosthetic")+
+  ylab("Propulsion (J/Kg)")+
+  geom_jitter(width = 0.1)+
+  theme_bw()+
+  theme(legend.position="none")
+
+propscatter+
+geom_point(meanpropDF, mapping = aes(Session, meanProp), size = 4, alpha = 1)
 ```
 
-## Investigating Dampening
-Another metric used to analyse the impact of force on the body is the dampening effect of a prosthetic device.  This is essentially how much of the force the device is able to absorb.  Higher dampening values indicate a device is better able to absorb shock and in the context of prosthetic use, reduce the transfer of this shock into the body.  Overuse injuries such as stress fractures are common in amputees because repeated impact from walking and/or running with undampened prostheses increases the amount of stress transferred into the knees and hips [5]. Typically the knees and ankles are used to dampen impact and reduce this force, but for lower leg amputees, the force of impact is sent directly into the residual limb which is in contact with the prosthetic. 
-
-To take a closer look at the implications of dampening, a two-way ANOVA will be performed to compare the differences in the intact leg compared to the different models of prosthetic devices.
+## Dampening
 
 
 #### Preliminary Data Modeling
@@ -99,7 +113,7 @@ DF$Side <- as.factor(DF$Side)
 # calculate the means of the combinations of different factors
 meanDF <- DF %>% group_by(Side, Session) %>% summarise(meanDampening = mean(Braking))
 ```
-```{r fig.align='center', fig.cap="Figure 4. Side-by-side comparison of the mean dampening power of the intact leg compared to the prosthetic legs and seperated by prosthetic type."}
+```{r fig.align='center',echo = FALSE, fig.cap="Figure 4. Side-by-side comparison of the mean dampening power of the intact leg compared to the prosthetic legs and seperated by prosthetic type."}
 # Plot this to show the differences between the different types of prostheses compared to the intact leg
 ggplot(meanDF, aes(Side, meanDampening, color = Session, group = Session))+
      geom_point()+
@@ -108,10 +122,8 @@ ggplot(meanDF, aes(Side, meanDampening, color = Session, group = Session))+
      ylab("Mean Dampening (J/Kg)")+
      xlab("Type of Leg")
 ```
-The lines do not appear to be parallel which suggests that prosthetic type may impact dampening of the prosthetic leg as well as the intact leg.
 
-
-#### Two-Way ANOVA
+#### Two-Way ANOVA:
 ```{r fig.align='center', fig.cap="Figure 5. The results of the 'autoplot()' function used to check the assumptions of the two way ANOVA.  The *Residuals vs Fitted* graph on the top left represents the graph of the residuals as they fit the model. The *Normal Q-Q* graph on the top left represents how well the points fit a normalized distribution."}
 # create the model using the lm() function
 model_dampening <- lm(Braking ~ Session+Side+Session*Side, data = DF)
@@ -119,21 +131,21 @@ model_dampening <- lm(Braking ~ Session+Side+Session*Side, data = DF)
 # check assumptions
 autoplot(model_dampening, smooth.color = NA)
 ```
-The two metrics used to evaluate whether this model fits the assumptions are the *Residuals vs Fitted* plot and the *Normal Q-Q* plot. The residuals appear to be equally distributed and the points fit the linear model of the normalization plot which indicates they do fit the normalized assumption that this model uses.
 
-```{r}
+```{r echo = FALSE}
 # generate ANOVA table
 anova(model_dampening)
 ```
-This ANOVA table shows there is not a significant difference between the dampening effects of the intact leg compared to the prosthetic leg (p = 0.8432).  However, there is a significant difference in dampening between the active and passive prosthetic models (p = 0.0237).  When the side and the types of prostheses are compared together, there is not a significant difference between them (p = 0.3539).
-
-```{r fig.align='center'}
+```{r fig.align='center', echo = FALSE}
 # take a look at the summary and comparisons between the specific conditions
 summary.lm(model_dampening)
 ```
-The results of this summary show that the slopes between these two comparisons are not large enough to warrant a significant difference between the dampening effects of the different types of prosthetic models when compared to the dampening of the intact leg. 
-
-#### Replotting to Show Statistical Relevance
+#### Results
+- No significant difference between the dampening effects of the intact leg compared to the prosthetic leg (p = 0.8432).  
+- Significant difference in dampening between the active and passive prosthetic models (p = 0.0237).  
+- No significant in dampening associated with the intact leg with the different prosthetic models (p = 0.3539).
+- The slopes between these two comparisons are insignificant
+   - The dampening effects of the intact leg does not differ depending on the type of prosthetic
 ```{r include=FALSE}
 # grab the standard error values to report
 
@@ -143,7 +155,7 @@ sumDF<-DF %>% group_by(Side, Session) %>% summarise(
 )
 ```
 
-```{r fig.align='center', fig.cap="Figure 6. The mean dampening power of the intact leg while walking with the BiOM prosthetic model (-0.179 ± 0.023). The mean dampening of the intact leg while walking with the ESR prosthetic model(-0.154 ± 0.009). These values are compared to the mean dampening power of the BiOM(-0.192 ± 0.023) and ESR(-0.134 ± 0.009) prosthetic models."}
+```{r fig.align='center', echo = FALSE, fig.cap="Figure 6. The mean dampening power of the intact leg while walking with the BiOM prosthetic model (-0.179 ± 0.023). The mean dampening of the intact leg while walking with the ESR prosthetic model(-0.154 ± 0.009). These values are compared to the mean dampening power of the BiOM(-0.192 ± 0.023) and ESR(-0.134 ± 0.009) prosthetic models."}
 # create scatterplot with error bars
 ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
      geom_point()+
@@ -154,19 +166,16 @@ ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
     xlab("Type of Leg")+
     ylab("Mean Dampening (J/Kg)")
 ```
-Between the different prosthetic conditions, the error bars do not overlap which supports the finding that there is a significant difference in dampening between prosthetic models.  In contrast, the error bars for the intact leg conditions do overlap which shows there is not a significant difference between dampening of the intact leg even using the two different types of prostheses. 
 
-
-## Investigating Power Generation During Gait Phase
-Walking is a dynamic movement that requires the transfer of force, weight, and energy in an ordered and calculated manner.  Breaking down gait into different stances provides insight into this transfer of force.  Here, we look at the power generation in the different gait positions to determine when prosthetic devices need to dampen forces and generate propulsion to maximize the efficiency of motion for patients.  
-
-```{r img-with-knitr, echo=FALSE, fig.align='center', out.width='40%', fig.cap='Figure 7. The three different stances that produce the most amount of stress on the residual limb.  The orange labeled legs mark the position of the prosthetic in each of these phases.'}
+## Power Generation During Gait Phase
+```{r img-with-knitr, echo=FALSE, fig.align='center', out.width='50%', fig.cap='Figure 7. The three different stances that produce the most amount of stress on the residual limb.  The orange labeled legs mark the position of the prosthetic in each of these phases.'}
 knitr::include_graphics(here("Images", "Gaitdiagram.png"))
 ``` 
-The three positions of interest are the mid stance, the terminal stance, and the pre swing.  Each of these correlate to the loading response of the prosthetic.  When an individual is loading or putting weight on the prosthetic, they are also increasing the stress on their residual limb.  Because these phases are the highest stress, they also are the phases that are most likely to contribute to injury and/or long term pain.
 
+- Gait phase correlates to the loading response of the prosthetic.  
+- When an individual is loading or putting weight on the prosthetic, they are also increasing the stress on their residual limb.  
+- Because these phases are the highest stress, they also are the phases that are most likely to contribute to injury and/or long term pain.
 
-#### Preliminary Data Modeling
 ```{r include=FALSE}
 # convert the data to long format
 DF_long <- pivot_longer(DF, names_to = "Phase", cols = Power_Gen_Pre:Power_Gen_Terminal,  values_to = "Power")
@@ -181,17 +190,14 @@ DF_long$Phase <- factor(DF_long$Phase, levels=c('Power_Gen_Mid', 'Power_Gen_Term
 # reassign the values of the different gait phases to make them show up nicer on the graph
 DF_long$Phase <- recode(DF_long$Phase, Power_Gen_Mid = 'Midstance', Power_Gen_Terminal = 'Terminal Stance', Power_Gen_Pre = 'Preswing')
 ```
-A boxplot can be rendered to take an initial look at the power generation between different gait phases.
 
-```{r fig.align='center', fig.cap="Figure 8. A boxplot of the spread of the power generated seperated by gait phase."}
-# make a boxplot of the data
-ggplot(DF_long, aes(Phase, Power)) +
-  geom_boxplot()+
-  geom_point(size = 3, colour = 'lightgrey', alpha = 0.5)
+
+```{r fig.align='center', echo = FALSE, fig.cap="Figure 8. A histogram of the spread of the power generated seperated by gait phase."}
+# make a histogram of the power generated separated by phase
+ggplot(DF_long, aes(x = Power))+
+    geom_histogram(binwidth = 0.25)+
+    facet_wrap(~Phase)
 ```
-The spread of the boxplot suggests that there is a difference between the power generated during different gait phases. 
-This motivates us to proceed with a repeated measures ANOVA analysis to compare the power generated between the three different gait phases.
-
 
 #### Repeated Measures ANOVA
 ```{r fig.align='center'}
@@ -202,16 +208,14 @@ power_model <- aov(Power~factor(Phase), data = DF_long)
 autoplot(power_model, smooth.color = NA)
 ```
 
-```{r}
+```{r, echo = FALSE}
 # run a summary of the model
 summary(power_model)
 ```
+#### Results:
+- There is a signficant difference between the power gerneated in each of the phases
 
-For repeated measures of variance, the null hypothesis states that the means for each of the groups is equal.  The p-value for this test indicates there is a significant difference between the power generated in different gait phases.
-
-
-#### Replotting to Show Statistical Relevance
-```{r message=FALSE}
+```{r echo=FALSE}
 # calculate the means and standard errors of these by group
 
 sum_power <-DF_long %>% group_by(Phase) %>% summarise(
@@ -219,20 +223,25 @@ sum_power <-DF_long %>% group_by(Phase) %>% summarise(
      sePower = sd(Power)/sqrt(sum(!is.na(Power)))
 )
 ```
-```{r fig.align='center', message=FALSE, fig.cap="Figure 9. The mean ± standard error of the power generated in the mid stance (-0.41775 ± 0.0499), the terminal stance (0.84425 ± 0.0753), and the preswing (3.6033 ± 0.2789)."}
+```{r fig.align='center', echo=FALSE, fig.cap="Figure 9. The mean ± standard error of the power generated in the mid stance (-0.41775 ± 0.0499), the terminal stance (0.84425 ± 0.0753), and the preswing (3.6033 ± 0.2789)."}
 # create scatterplot with error bars
 ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
-     geom_point()+
+     geom_point(size = 2)+
+     scale_color_manual(values = c("Midstance" = "Magenta",
+                                "Terminal Stance" = "Blue",
+                                "Preswing"="Dark Green"))+
      geom_line()+
      geom_errorbar(aes(ymin = meanPower - sePower,
-                       ymax = meanPower + sePower), width = 0.1)+
+                       ymax = meanPower + sePower), width = 0.2, linewidth = 0.4)+
     theme_bw()+
-    theme(legend.position="none")+
+    theme(legend.position = "none")+
+    geom_hline(yintercept=1.343, linetype='dotted', linewidth = 0.8)+
+    annotate("text", x =1.2, y = 1.343, label = "Mean Power Generated", vjust = -0.5, size = 3)+
     xlab("Gait Phase")+
     ylab("Power Generated (J/Kg)")
     
+    
 ```
-Based on this graph you can clearly see that the error bars do not overlap.  This supports the results of the repeated measures of variance indicating there is a significant difference between the phases (p-value = $2.0 \times 10^{-16}$). Therefore, there is a relationship between power generation and gait phase and we can use this to determine how to better develop prosthetic devices in the future.
 
 # Biological Summary
 The goal of this analysis was to identify potential contributing factors to long term adverse health outcomes in below the knee amputees.  To do this, different factors like propulsion, dampening, and power generation during different gait phases were investigated.  
@@ -247,7 +256,7 @@ Such devices could be inspired by looking further into the power generated durin
 # Challenges
 One challenges I ran into with this project included interpreting the results of the two-way ANOVA that I ran to compare dampening between the different variables.  Even though we talked about how the `anova()` function and `summary()` functions report data, it was confusing to try and interpret how it compared the factors and levels that I wanted it to compare.  
 
-Another challenge I ran into was figuring out how to run a repeated measures ANOVA.  I ended up doing a lot of searching on the internet to figure out the most efficent way to do this but I believe I got it.  The benefit of the repeated measures ANOVA over a regular one-way or two-way ANOVA is that it takes data that happens in a specific order and compares values in and between the different levels to provide a better comparison for ordered categorical data.  
+Another challenge I ran into was figuring out how to run a repeated measures ANOVA.  I ended up doing a lot of searching on the internet to figure out the most efficient way to do this but I believe I got it.  The benefit of the repeated measures ANOVA over a regular one-way or two-way ANOVA is that it takes data that happens in a specific order and compares values in and between the different levels to provide a better comparison for ordered categorical data.  
 
 Lastly, I ran into a few weird problems like not being able to import the `tidyverse` package, `dplyr` stopped working, and the `autoplot()` function being finicky.  For each of these, I did some extensive troubleshooting and while I couldn't figure out the tidyverse issue, I was able to get `dplyr` to work after uninstalling and reinstalling a bunch of packages that it is dependent on.  
 

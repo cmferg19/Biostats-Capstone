@@ -63,9 +63,6 @@ The results of the test show that there is no significant difference between the
 # calculate the means propulsion values
 meanpropDF<-DF_prosthetic %>% group_by(Session) %>% summarise(
      meanProp = mean(Propulsion))
-     
-
-
 
 # make a scatter plot comparing the distribution of propulsion values between the active and passive prostheses
 propscatter <- ggplot(DF_prosthetic, aes(Session, Propulsion, colour = Session), size = 3, alpha = 0.5)+
@@ -79,9 +76,6 @@ propscatter
 
 propscatter+
 geom_point(meanpropDF, mapping = aes(Session, meanProp), size = 4, alpha = 1)
-
-  
-  
 ```
 
 
@@ -243,7 +237,7 @@ autoplot(power_model2, smooth.color = NA)
 ```
 The assumptions look good.  The residuals are evenly distributed from the line and the points fit a normalized distribution of the data as shown by the Normal Q-Q line.
 
-The points don't look too good to me. They are good in the middle of the distribution, but not at the tails. It probabaly doesn't matter, but we might want to try a glm here.
+The points don't look too good to me. They are good in the middle of the distribution, but not at the tails. It probably doesn't matter, but we might want to try a glm here.
 
 ```{r}
 # run a summary of the model
@@ -271,15 +265,21 @@ sum_power$Phase <- recode(sum_power$Phase, Power_Gen_Mid = 'Midstance',
 Create a graph summarizing these results:
 ```{r}
 # create scatterplot with error bars
-ggplot(sum_power, aes(Phase, meanPower, colour = Phase))+
+ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
      geom_point()+
+     scale_color_manual(values = c("Midstance" = "Magenta",
+                                "Terminal Stance" = "Blue",
+                                "Preswing"="Dark Green"))+
      geom_line()+
      geom_errorbar(aes(ymin = meanPower - sePower,
                        ymax = meanPower + sePower), width = 0.1)+
     theme_bw()+
-    theme(legend.position="none")+
+    geom_hline(yintercept=1.343, linetype='dotted', size = 0.8)+
+    annotate("text", x =1.2, y = 1.343, label = "Mean Power Generated", vjust = -0.5, size = 3)
+    theme(legend.position="none", )+
     xlab("Gait Phase")+
     ylab("Power Generated (J/Kg)")
+    
     
 ```
 This graph supports the results of the repeated measures of variance indicating there is a significant difference between the phases (p = 155.4 <2e-16). Therefore, gait phase does play a significant role in power generation while walking.
