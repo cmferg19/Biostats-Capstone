@@ -215,7 +215,7 @@ ggplot(DF_long, aes(x = Power))+
 #### Repeated Measures ANOVA:
 ```{r fig.align='center', out.width='80%'}
 # Use the aov() function to generate a repeated ANOVA model
-power_model <- aov(Power~factor(Phase), data = DF_long)
+power_model <- glm(Power~factor(Phase), data = DF_long)
 
 # check assumptions
 autoplot(power_model, smooth.color = NA)
@@ -226,7 +226,8 @@ autoplot(power_model, smooth.color = NA)
 summary(power_model)
 ```
 #### Results:
-- There is a significant difference between the power generated in each of the phases
+- There is a significant difference between the Terminal stance and the midstance (p = 6e-07)
+- There is a significant difference between the Pre Swing and the midstance (p = 2e-16)
 
 ```{r echo=FALSE}
 # calculate the means and standard errors of these by group
