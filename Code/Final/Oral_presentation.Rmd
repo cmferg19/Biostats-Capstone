@@ -155,7 +155,7 @@ summary.lm(model_dampening)
 #### Results:
 - No significant difference between the dampening effects of the intact leg compared to the prosthetic leg (p = 0.8432).  
 - Significant difference in dampening between the active and passive prosthetic models (p = 0.0237).  
-- No significant in dampening associated with the intact leg with the different prosthetic models (p = 0.3539).
+- No significant in dampening associated with the intact legs while walking with the different types of prostheses (p = 0.3539).
 - The slopes between these two comparisons are insignificant
    - The dampening effects of the intact leg does not differ depending on the type of prosthetic
 ```{r include=FALSE}
@@ -176,7 +176,9 @@ ggplot(sumDF, aes(Side, meanDamp, color = Session, group = Session))+
                        ymax = meanDamp + seDamp), width = 0.1)+
      theme_bw()+
     xlab("Type of Leg")+
-    ylab("Mean Dampening (J/Kg)")
+    ylab("Mean Dampening (J/Kg)")+
+  annotate("text", x = 2.4 , y = -0.22,
+    label = "n = 12")
 ```
 
 ## Hypothesis 3:Power Generation During Gait Phase
