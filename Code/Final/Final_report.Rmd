@@ -1,7 +1,7 @@
 ---
 title: "Lower limb prosthetic gait analysis to identify factors contributing to long term adverse health outcomes in amputees"
 author: "Cora Ferguson"
-date: "2022-30-19"
+date: "2022-12-14"
 output: html_document
 ---
 
@@ -20,12 +20,12 @@ library(here)
 DF <- read.csv(here("Data", "Processed", "processed_prosthetic_analysis.csv"))
 ```
 # Introduction
-In the United States, approximately 1.9 million individuals live with lower limb loss which is an amputation below the knee.  Lower limb loss is primarily attributed to traumatic injuries, diabetes mismanagement, and peripheral artery disease [1].  With the rise in the prevalence of these diseases, the number of individuals facing lower limb loss is projected to go up. To meet the increasing demand for prosthetic devices, new technology is being developed with the goal of balancing cost, functionality, and comfort for these patients.  
+In the United States alone, approximately 1.9 million individuals live with lower limb loss which is characterized by below the knee amputation.  Lower limb loss is primarily attributed to traumatic injuries, diabetes mismanagement, and peripheral artery disease [1].  With the rise in the prevalence of these diseases, the number of individuals facing lower limb loss is projected to go up. To meet the increasing demand for prosthetic devices, new technology is being developed with the goal of balancing cost, functionality, and comfort for these patients.  
 
 While prosthetic devices improve mobility, long term use impacts the natural motion of the body.  Weight imbalances associated with lower limb loss force individuals to compensate with other parts of the body to retain balance and move [2].  This places additional stress on the body which increases one's risk for adverse health outcomes such as chronic pain, arthritis, joint problems, and more [2].
 
 # The Data:
-The data for this analysis are taken from a study performed by the Department of Rehabilitation Medicine at the Brooke Army Medical Center in Houston, Texas [2].  The initial study evaluated and characterized the biomechanical compensations of lower limb amputees when using different types of prosthetic limbs on a sloped surface. Identifying how amputees compensate for prosthetic devices allows researchers to design and develop new models to better distribute these forces and reduce adverse health outcomes from prosthetic use in the future. 
+The data for this analysis are taken from a study performed by the Department of Rehabilitation Medicine at the Brooke Army Medical Center in Houston, Texas [2].  The initial study evaluated the biomechanical compensations of lower limb amputees when using different types of prosthetic limbs on a sloped surface. Identifying how amputees compensate for prosthetic devices allows researchers to design and develop new models to limit compensatory forces and reduce adverse health outcomes from prosthetic use in the future. 
   
   
   
@@ -34,17 +34,18 @@ The data for this analysis are taken from a study performed by the Department of
 knitr::include_graphics(here("Images", "Activevspassiveprostheses.png"))
 ``` 
 
-#### **Active Prosthetic Models**
+#### **(A) Active Prosthetic Models**
 Active prosthetic models have a microcontroller incorporated into the ankle.  The microcontroller is programmed to adjust propulsion power and foot position throughout the gait cycle.  This design allows it to mimic natural movement of body [3].
 
-#### **Passive Prosthetic Models**
-Passive prosthetic models do not have a microcontroller.  Instead, they use material properties to absorb force and generate power. Composite materials like carbon fiber are designed to store energy and convert it back into kinetic energy as the individual walks. Think of the material as a spring.  When force is applied to it, the spring will compress - storing the force applied as potential energy.  When the force is removed, the potential energy is converted into kinetic energy and the spring will decompresses. In the context of prosthetic devices, when the material decompresses, it provides supplementary force that that propels the user forward. 
+#### **(B) Passive Prosthetic Models**
+Passive prosthetic models do not have a microcontroller.  Instead, they use material properties to absorb force and generate power. Composite materials like carbon fiber are designed to store energy and convert it back into kinetic energy as the individual walks. Think of the material as a spring.  When force is applied to it, the spring will compress - storing the force applied as potential energy.  When the force is removed, the potential energy is converted into kinetic energy and the spring will decompress. In the context of prosthetic devices, when the material decompresses, it provides supplementary force that that propels the user forward. 
 
 <br>
 
-# Goal: Analyse the differences between active and passive prosthetic models to investigate how these models may contribute to adverse health outcomes
-
 ## Data Processing:
+
+The data from the original study analyzed accelerometer data from a series of biosensors that were attached to the participants. This provided information on the velocity, angles, power, and dampening of different parts of the body throughout the gait cycle.  For this analysis, I am focusing on propulsion, dampening, and power generated.  Each of these metrics have been previously demonstrated to influence the development of chronic joint pain in amputees [2][3].
+
 ```{r img-knitr-b, echo=FALSE, fig.align='center', out.width='99%'}
 knitr::include_graphics(here("Images", "dataworkflow.png"))
 ``` 
@@ -53,8 +54,10 @@ knitr::include_graphics(here("Images", "dataworkflow.png"))
 ```{r img-knitr-a, echo=FALSE, fig.align='center', out.width='80%'}
 knitr::include_graphics(here("Images", "variablesbreakdown.png"))
 ``` 
+<br>
 
-The data from the original study analyzed accelerometer data from a series of biosensors that were attached to the participants. This provided information on the velocity, angles, power, and dampening of different parts of the body throughout the gait cycle.  For my analysis, I am focusing on propulsion, dampening, and power generated.  Each of these metrics have been previously demonstrated to influence the development of chronic joint pain in amputees [2][3]. 
+
+The goal of this analysis is to investigate the differences between active and passive prosthetic models to understand how these models may contribute to adverse health outcomes.
 
 
 ## Propulsion
@@ -89,9 +92,10 @@ t.test(Propulsion ~ Session, data = DF_prosthetic)
 qqnorm(DF_prosthetic$Propulsion, main='Normal')
 qqline(DF_prosthetic$Propulsion)
 ```
+The two-sample t test assumes the data are normally distributed. The Normal Q-Q plot above shows that the data fit this assumption which means the two-sample t test is a good way to analyse these data.  
 
 #### Results: 
-The two-sample T test compares the means of two different collections of data.  The results of this test show there is a significant difference between the propulsion generated by the active and passive prosthetic devices (p = 0.0125).  
+The two-sample T test compares the means of two different collections of data.  The results of this test show there is a significant difference between the propulsion generated by the active and passive prosthetic devices (p-value = 0.0125).  
 
 ```{r fig.align='center',echo = FALSE, out.width='80%'}
 # calculate the means propulsion values
@@ -155,8 +159,8 @@ anova(model_dampening)
 summary.lm(model_dampening)
 ```
 #### Results:
-The two-way anova compares the dampening of the different types of prosthetic models to the dampening of the intact leg while walking with the two active and passive prosthetic models.  Here there is no significant difference between the dampening effects of the intact leg compared to the prosthetic leg (p = 0.8432).  There is also no significant in dampening associated with the intact leg while walking with the different types of prostheses (p = 0.3539).  However, there is a
-significant difference in dampening between the active and passive prosthetic models (p = 0.0237).  
+The two-way ANOVA compares the dampening of the different types of prosthetic models to the dampening of the intact leg while walking.  Here there is no significant difference between the dampening effects of the intact leg compared to the prosthetic leg (p-value = 0.8432).  There is also no significant difference in dampening associated with the intact leg while walking with the different types of prostheses (p-value = 0.3539).  However, there is a
+significant difference in dampening between the active and passive prosthetic models (p-value = 0.0237).  
 
 ```{r include=FALSE}
 # grab the standard error values to report
@@ -182,14 +186,14 @@ ggplot(sumDF, aes(Session, meanDamp, color = Side, group = Side))+
 ```
 
 ## Power Generation During Gait Phase
-Walking is a dynamic movement that requires the transfer of force, weight, and energy in an ordered and calculated manner.  Breaking the gait cycle into different stances provides insight into the transfer of force at each position and the resulting loading response of the prosthetic. Because these phases are the highest stress, they also are the phases that are most likely to contribute to injury and/or long term pain
+Walking is a dynamic movement that requires the transfer of force, weight, and energy in an ordered and calculated manner.  Breaking the gait cycle into different stances provides insight into the transfer of force at each position and the resulting loading response of the prosthetic. Because these phases are associated with the highest stress states, they are most likely to contribute to injury and/or long term pain [6].
 
 
 ```{r img-with-knitr, echo=FALSE, fig.align='center', out.width='50%'}
 knitr::include_graphics(here("Images", "Gaitdiagram.png"))
 ``` 
 
-**Hypothesis:** Each phase in the gait cycle is designed to coordinate the transfer of weight and energy as individuals walk. Because of this, there will be a significant difference in power generation because the energy transfers associated with the midstance, terminal stance, and preswing, work to propel the individual in different ways.
+**Hypothesis:** Each phase in the gait cycle is designed to coordinate the transfer of weight and energy as individuals walk. Because of this, there will be a significant difference in power generation because the energy transfers associated with the midstance, terminal stance, and preswing work to propel the individual in different ways.
 
 #### Preliminary data modeling:
 ```{r include=FALSE}
@@ -224,7 +228,7 @@ ggplot(DF_long, aes(x = Power))+
     
 ```
 
-This skew means that the data are not normally distributed.  To analyse an ordered response variable where same individuals appear in each condition, a repeated measures analysis is typically used.  One of the assumptions of this test is that the data are normally distributed.  Another way to visualize this is by plotting a Normal Q-Q Plot. 
+This skew means that the data are not normally distributed.  To analyse an ordered response variable where the same individuals appear in each condition, a repeated measures analysis is typically used.  One of the assumptions of this test is that the data are normally distributed.  Another way to visualize this is by plotting a Normal Q-Q Plot. 
 
 ```{r fig.align='center', echo = FALSE, out.width='80%'}
 # check assumptions
@@ -233,20 +237,23 @@ qqline(DF_long$Power)
 ```
 
 
-To compensate for this, a friedman test will be performed.  The friedman test is a non-parametric alternative to the repeated measures ANOVA and is better able to deal with data that is not normally distributed. 
+The Normal Q-Q plot shows that the data clearly deviates from the linear model.  This means it is not normally distributed. To compensate for this, a friedman test will be performed.  The friedman test is a non-parametric alternative to the repeated measures ANOVA and is better able to deal with data that is not normally distributed. 
 
 #### Friedman test:
 
-The `friedman.test(y, groups, blocks) ` function is used to run the friedman test. Here the `y` parameter refers to the response variable which is power generated.  The `groups` parameter refers to the categories the data are separated by which is the phase.  Lastly, the `blocks` parameter outlines what variable each data point belongs to; in this case it is the subject. 
+The `friedman.test(y, groups, blocks) ` function is used to run the friedman test. Here the `y` parameter refers to the response variable - power generated.  The `groups` parameter refers to the categories the data are separated by; in this case, it is phase.  Lastly, the `blocks` parameter outlines what variable each data point belongs to; here, it is the subject. 
 
 Since the data are not normally distributed, have been randomly collected, and there is no interaction between the blocks (the subjects) they meet the assumptions of the friedman test. 
 
-```{r fig.align='center', out.width='80%', echo=FALSE}
+```{r fig.align='center', out.width='80%', include=FALSE}
 # average the power generated by each individual in the different gait phases
 
 DF_long_avg <- DF_long %>% group_by(Subject, Phase) %>%
   summarise(MeanPower = mean(Power))
 
+```
+
+```{r fig.align='center', out.width='80%', echo=FALSE}
 # perform the friedman test
 friedman.test(DF_long_avg$MeanPower, DF_long_avg$Phase, DF_long_avg$Subject)
 
@@ -288,19 +295,19 @@ ggplot(sum_power, aes(Phase, meanPower, color = Phase))+
 # Biological Summary
 The goal of this analysis was to identify factors that contribute to long term adverse health outcomes in lower limb amputees.  To do this, I analysed the differences between propulsion, dampening, and power generation during different gait phases.  
 
-Between the active and passive prosthetic models, there is a significant difference in propulsion (p-value = 0.01246).  The active prosthetic model has a microcontroller in it which allows for live power adjustments.  This allows it to produce a greater amount of propulsion force compared to the  passive prosthetic which does not have a microcontroller. When a prosthetic is able to generate a greater amount of propulsion force, this decreases the amount of force required by the user to move the leg and thus, alieviates some stress on the body[3]. Future studies could look at different models of passive and active prostheses to investigate whether this result is exclusive to the BioM and ESR models that were used in this study or not.
+Between the active and passive prosthetic models, there is a significant difference in propulsion (p-value = 0.01246).  The active prosthetic model has a microcontroller in it which allows for live power adjustments.  This allows it to produce a greater amount of propulsion force compared to the passive prosthetic which does not have a microcontroller. When a prosthetic is able to generate more propulsion force, it decreases the amount of force required by the user to move the leg which alleviates some stress on the body[3]. Future studies could look at different models of passive and active prostheses to investigate whether this result is exclusive to the BioM and ESR models that were used in this study.
 
 The dampening analysis revealed that dampening is significantly greater with the passive prosthetic compared to the active prosthetic (p-value = 0.0237).  Previous studies have shown that the ability of a prosthetic to dampen force plays a significant role in the amount of excess stress placed on the residual limb [5]. Prosthetic models with less dampening are reported to be less comfortable and cause more pain for amputees [5].  Physiologically, this pain causes extra strain on the rest of the body as individuals try to compensate which increases one's risk for adverse health outcomes[4][5].
 
-Future prosthetic designs should take the effects of propulsion and dampening into account. Such devices could be inspired by looking further into the power generated during different gait phases. This study showed that there is a significant difference between the power generated during the midstance, terminal stance, and preswing phases (p-value = 4.54e-05). The power generated in these phases influences the propulsion force that the prosthetic device is able to produce[4]. Investigating the differences in power generated during each of these positions could be used to develop devices that are able to better absorb the power generated in each of these phases.
+Future prosthetic designs should take the effects of propulsion and dampening into account. Such devices could be inspired by looking further into the power generated during different gait phases. Based on this data, there is a significant difference between the power generated during the midstance, terminal stance, and preswing phases (p-value = 4.54e-05). The power generated in these phases influences the amount of force that the prosthetic device uses during propulsion[4]. These differences can be used to improve current research focused on developing more efficient prosthetic devices that transfer energy throughout the gait cycle.  Such a model would improve both dampening and propulsion to minimize compensatory forces in the short term, and reduce long term adverse health outcomes from prosthetic use in the long term. 
 
 
 # Challenges
-One challenges I ran into with this project included interpreting the results of the two-way ANOVA that I ran to compare dampening between the different variables.  Even though we talked about how the `anova()` function and `summary()` functions report data, it was confusing to try and interpret how it compared the factors and levels that I wanted it to compare.  
+One challenge I ran into with this project included interpreting the results of the two-way ANOVA that I ran to compare dampening between the different variables.  Even though we talked about how the `anova()` function and `summary()` functions report data, it was confusing to try and interpret how it compared the factors and levels that I wanted it to compare.  
 
-Another challenge I ran into was figuring out how to run a repeated measures ANOVA.  I ended up doing a lot of searching on the internet to figure out the most efficent way to do this but I believe I got it.  The benefit of the repeated measures ANOVA over a regular one-way or two-way ANOVA is that it takes data that happens in a specific order and compares values in and between the different levels to provide a better comparison for ordered categorical data.  
+Another challenge I ran into was figuring out how to run a repeated measures ANOVA.  I ended up doing a lot of searching on the internet to figure out the most efficient way to do this but when we figured out that the data were not normally distributed, I had to reevaluate the model. I settled on conducting a friedman test because it is similar to a repeated measures ANOVA but is able to deal with data that is not normalized.  
 
-Lastly, I ran into a few weird problems like not being able to import the `tidyverse` package, `dplyr` stopped working, and the `autoplot()` function being finicky.  For each of these, I did some extensive troubleshooting and while I couldn't figure out the tidyverse issue, I was able to get `dplyr` to work after uninstalling and reinstalling a bunch of packages that it is dependent on.  
+Lastly, I ran into a few weird problems like not being able to import the `tidyverse` package, `dplyr` stopped working, and the `autoplot()` function was rather finicky.  For each of these, I did some extensive troubleshooting and while I couldn't figure out the tidyverse issue, I was able to get `dplyr` to work after uninstalling and reinstalling a bunch of packages that it is dependent on.  
 
 # References
 [1] Balk EM, Gazula A, Markozannes G, et al. Lower Limb Prostheses: Measurement Instruments, Comparison of Component Effects by Subgroups, and Long-Term Outcomes [Internet]. Rockville (MD): Agency for Healthcare Research and Quality (US); 2018 Sep. (Comparative Effectiveness Review, No. 213.) Evidence Summary. Available from: https://www.ncbi.nlm.nih.gov/books/NBK531527/
