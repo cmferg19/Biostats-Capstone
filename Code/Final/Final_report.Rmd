@@ -1,8 +1,11 @@
 ---
-title: "Lower limb prosthetic gait analysis to identify factors contributing to long term adverse health outcomes in amputees"
+title: Lower limb prosthetic gait analysis to identify factors contributing to long
+  term adverse health outcomes in amputees
 author: "Cora Ferguson"
 date: "2022-12-14"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r include=FALSE}
